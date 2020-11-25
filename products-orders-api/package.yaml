@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'query-api
+
+  Sample SAM Template for query-api
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  ProductsQueryApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Name: ProductsAPI
+  VendorQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: VendorQueryFunction
+      CodeUri: s3://dakobed-serverless-apis/25cd1327b8bd3fb3009c0711303b087b
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Products
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ProductsQueryApi
+            Path: /products/vendor/{vendor_id}
+            Method: get
+  ProductsQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ProductsQueryFunction
+      CodeUri: s3://dakobed-serverless-apis/89a424ef11f3eda289e43e4dda7f3200
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Products
+      Events:
+        ProductsQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ProductsQueryApi
+            Path: /products
+            Method: get
+Outputs:
+  ProductsQueryApi:
+    Description: API Gateway endpoint URL for Prod stage for ProductsQueryFunction
+    Value:
+      Fn::Sub: https://${ProductsQueryApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/products/
+  ProductsQueryFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - ProductsQueryFunction
+      - Arn
+  HelloWorldFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - ProductsQueryFunction
+      - Arn
