@@ -1,6 +1,6 @@
-### SAM Applications ###
+### Outdoor Recreation ECommerce Serverless Applications Model Vue Application ###
 
-This repository contains applications developed using the  AWS serverless application model (SAM) 
+This repository contains applications developed using the  AWS serverless application model (SAM) as well as storefront front end.
 
 ### This repository contains ###
 * Products & Orders Application
@@ -13,3 +13,4 @@ This repository contains applications developed using the  AWS serverless applic
     * Product Query API
         - Serverless Application for querying the products database
 
+* Vue Front End

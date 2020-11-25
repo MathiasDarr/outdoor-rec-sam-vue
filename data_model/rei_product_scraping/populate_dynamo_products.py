@@ -84,7 +84,7 @@ def create_products_table():
 
 if __name__ == '__main__':
     # dynamodb = boto3.resource('dynamodb',endpoint_url="http://localhost:4566")
-    dynamodb = boto3.resource('dynamodb')  # ,endpoint_url="http://localhost:8000")
+    dynamodb = boto3.resource('dynamodb', endpoint_url="http://localhost:8000")
     create_products_table()
     sleep(5)
     table = dynamodb.Table('Products')

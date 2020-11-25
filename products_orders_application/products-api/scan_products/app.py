@@ -5,6 +5,13 @@ import boto3
 dynamodb = boto3.client('dynamodb', endpoint_url='http://dynamo-local:8000')
 dynamo_resource = boto3.resource('dynamodb', endpoint_url='http://dynamo-local:8000')
 
+# dynamo_resource = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+
+def scan_products():
+    table = dynamo_resource.Table('Products')
+    scan_results = table.scan()
+    return scan_results['Items']
+
 def scan_products():
     table = dynamo_resource.Table('Products')
     scan_results = table.scan()
