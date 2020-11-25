@@ -10,6 +10,7 @@ import boto3
 from boto3.dynamodb.types import Decimal
 from time import sleep
 
+
 def insert_product(product):
     return table.put_item(
         Item={
@@ -78,8 +79,6 @@ def create_products_table():
         return resp
     except Exception as e:
         print(e)
-
-
 
 
 if __name__ == '__main__':

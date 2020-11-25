@@ -2,28 +2,18 @@
 The lambda function defined here queries the category GSI
 
 """
-
 import json
 import boto3
-from boto3.dynamodb.conditions import Key
 
 
-dynamo_resource = boto3.resource('dynamodb')  # , endpoint_url='http://dynamo-local:8000')
-TABLE_NAME = 'Products'
-table = dynamo_resource.Table(TABLE_NAME)
+dynamo_resource = boto3.resource('dynamodb') #, endpoint_url='http://localhost:8000')
+TABLE_NAME = 'Categories'
+categories_table = dynamo_resource.Table(TABLE_NAME)
 
 
-def query_products_by_category(category):
-    response = table.query(
-        # Add the name of the index you want to use in your query.
-        IndexName="categoryGSI",
-        KeyConditionExpression=Key('category').eq(category),
-    )
-    products = response['Items']
-    return products
-    # for product in products:
-    #     product['price'] = float(product['price'])
-    # return products
+def scan_categories():
+    scan_results = categories_table.scan()
+    return scan_results['Items']
 
 
 def lambda_handler(event, context):
@@ -48,14 +38,11 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
-    category = event['pathParameters']['category']
-    products = query_products_by_category(category)
+    categories = scan_categories()
 
     return {
         "statusCode": 200,
         "body": json.dumps({
-            "products": str(products),
-            # "type": str(event.keys())
-            # "location": ip.text.replace("\n", "")
+            "categories": categories,
         }),
     }

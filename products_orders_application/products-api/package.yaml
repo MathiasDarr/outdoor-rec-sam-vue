@@ -1,8 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: 'query-api
-
-  Sample SAM Template for query-api
+Description: 'query-ap Sample SAM Template for query-api
 
   '
 Globals:
@@ -18,7 +16,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/25cd1327b8bd3fb3009c0711303b087b
+      CodeUri: s3://dakobed-serverless-apis/d82eb1775cf74fa390be543d90094565
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
@@ -32,11 +30,47 @@ Resources:
               Ref: ProductsQueryApi
             Path: /products/vendor/{vendor_id}
             Method: get
-  ProductsQueryFunction:
+  GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: ProductsQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/89a424ef11f3eda289e43e4dda7f3200
+      FunctionName: GetCategoriesFunction
+      CodeUri: s3://dakobed-serverless-apis/865c6211428394498f4ada9409952f4b
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Categories
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ProductsQueryApi
+            Path: /categories
+            Method: get
+  CategoryQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CategoryQueryFunction
+      CodeUri: s3://dakobed-serverless-apis/22b5b934254a4f3d7dff46c1dc27307c
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Products
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ProductsQueryApi
+            Path: /products/category/{category}
+            Method: get
+  ProductsScanFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ProductsScanFunction
+      CodeUri: s3://dakobed-serverless-apis/bbdae5175e427827bba18954a5d95ffb
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
@@ -55,15 +89,15 @@ Outputs:
     Description: API Gateway endpoint URL for Prod stage for ProductsQueryFunction
     Value:
       Fn::Sub: https://${ProductsQueryApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/products/
-  ProductsQueryFunction:
+  ProductsScanFunction:
     Description: Hello World Lambda Function ARN
     Value:
       Fn::GetAtt:
-      - ProductsQueryFunction
+      - ProductsScanFunction
       - Arn
   HelloWorldFunctionIamRole:
     Description: Implicit IAM Role created for Hello World function
     Value:
       Fn::GetAtt:
-      - ProductsQueryFunction
+      - ProductsScanFunction
       - Arn

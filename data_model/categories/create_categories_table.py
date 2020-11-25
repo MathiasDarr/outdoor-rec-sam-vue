@@ -42,14 +42,14 @@ def create_categories_table():
 
 if __name__ == '__main__':
 
-    dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url='http://localhost:8000')
+    dynamodb = boto3.resource('dynamodb', region_name='us-west-2') #, endpoint_url='http://localhost:8000')
 
-    create_categories_table()
+    #create_categories_table()
     sleep(2)
 
     table = dynamodb.Table('Categories')
 
-    categories = [('mens-boots', 'boots', 'M'),('day-packs', 'backpacks', 'womens-running-jackets', 'jackets','W') , ('womens-rain-jackets', 'jackets', 'w'),
+    categories = [('mens-boots', 'boots', 'M'),('day-packs', 'backpacks',''),('backpacking-packs','backpacks',''), ('womens-running-jackets', 'jackets','W') , ('womens-rain-jackets', 'jackets', 'w'),
                    ('womens-insulated-jackets','jackets','W'), ('womens-fleece-and-soft-shell-jackets', 'jackets','W', 'womens-casual-jackets', 'jackets', 'W'),
                    ('womens-boots', 'boots', 'W'), ('mens-winter-boots','boots','M'), ('mens-snow-jackets', 'jackets','M'), ('mens-running-jackets', 'jackets', 'M'),
                    ('mens-rain-jackets', 'jackets', 'M'), ('mens-insulated-jackets','jackets','M' ), ('mens-fleece-and-soft-shell-jackets','jackets','M'),
