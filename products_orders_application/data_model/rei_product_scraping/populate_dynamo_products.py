@@ -8,7 +8,7 @@ import csv
 import os
 import boto3
 from boto3.dynamodb.types import Decimal
-
+from time import sleep
 
 def insert_product(product):
     return table.put_item(
@@ -65,7 +65,7 @@ def create_products_table():
                         },
                     ],
                     'Projection': {
-                        'ProjectionType': 'KEYS_ONLY',
+                        'ProjectionType': 'ALL',
                     },
                     'ProvisionedThroughput': {
                         'ReadCapacityUnits': 1,
@@ -75,6 +75,7 @@ def create_products_table():
             ],
 
         )
+        return resp
     except Exception as e:
         print(e)
 
@@ -85,6 +86,7 @@ if __name__ == '__main__':
     # dynamodb = boto3.resource('dynamodb',endpoint_url="http://localhost:4566")
     dynamodb = boto3.resource('dynamodb')  # ,endpoint_url="http://localhost:8000")
     create_products_table()
+    sleep(5)
     table = dynamodb.Table('Products')
 
     CSV_DIRECTORY = 'products'

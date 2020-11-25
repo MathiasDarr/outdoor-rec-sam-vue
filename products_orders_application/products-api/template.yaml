@@ -1,8 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  query-api
-
+  query-ap
   Sample SAM Template for query-api
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -36,11 +35,28 @@ Resources:
             Path: /products/vendor/{vendor_id}
             Method: get
 
-
-  ProductsQueryFunction:
+  CategoryQueryFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      FunctionName: ProductsQueryFunction
+      FunctionName: CategoryQueryFunction
+      CodeUri: query_category/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: Products
+      Events:
+        VendorQuery:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref ProductsQueryApi
+            Path: /products/category/{category}
+            Method: get
+
+  ProductsScanFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: ProductsScanFunction
       CodeUri: scan_products/
       Handler: app.lambda_handler
       Runtime: python3.7
@@ -62,9 +78,9 @@ Outputs:
   ProductsQueryApi:
     Description: "API Gateway endpoint URL for Prod stage for ProductsQueryFunction"
     Value: !Sub "https://${ProductsQueryApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/products/"
-  ProductsQueryFunction:
+  ProductsScanFunction:
     Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt ProductsQueryFunction.Arn
+    Value: !GetAtt ProductsScanFunction.Arn
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt ProductsQueryFunction.Arn
+    Value: !GetAtt ProductsScanFunction.Arn
