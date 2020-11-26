@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-layout>
-      <v-flex md2>
+      <v-flex md3>
         <!-- <BaseNavBar v-bind:categories=cate /> -->
         <CategoriesNavBar /> 
       </v-flex>
-      <v-flex md10>
+      <v-flex md9>
           <!-- <v-card flat>
             <ProductList />
           </v-card> -->

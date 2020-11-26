@@ -50,7 +50,7 @@ export default {
     return {
         drawer: false,
         menuItems:[
-          {title:'Store', route:'/' }, 
+          {title:'Shop', route:'/' }, 
           {title: 'Shopping Cart', route: 'cart'},
           {title:'Login', route:'/login/' }
 

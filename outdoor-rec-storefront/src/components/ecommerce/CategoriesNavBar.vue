@@ -1,27 +1,56 @@
 <template>
   <div>
-    <v-card  height="400" flat>
-        {{ categories }}
+    <v-card flat > 
+          <!-- height="400" flat> -->
+    <v-navigation-drawer permanent>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            Categories
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense nav >
+        <v-list-item
+          v-for="category in categories"
+          :key="category"
+          link
+        >
+          <!-- <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon> -->
+
+          <v-list-item-content>
+            <v-list-item-title>{{ category}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+
       <!-- <v-navigation-drawer
         absolute >
         <v-list
           dense
           nav
           class="py-0">
-            
-              <v-list-item
-                v-for="item in categories"
-                :key="item.subcategory"
+              <v-list-item v-for="item in categories"
+                :key="item"
                 link >
-              <v-list-item-content @click="navigate(item.subcategory)">
-
-                <v-list-item-title>{{ item.subcategory }}</v-list-item-title>
+              <v-list-item-content @click="navigate(item)">
+                
+                <v-list-item-title>{{ item }}</v-list-item-title>
 
           </v-list-item-content>
          </v-list-item>
         </v-list>
-      </v-navigation-drawer>
-        {{ categories }} -->
+      </v-navigation-drawer> -->
     </v-card>
   </div>
 </template>
@@ -49,7 +78,7 @@ export default {
                 //   categories.push(category)
                 // });
                 response_categories.forEach((category) => {
-                    categories.push(category.subcategory)
+                    categories.push(category.category)
                 });
                 this.categories = categories
             }catch(err){
@@ -77,7 +106,11 @@ export default {
     },
 
   created(){
-    this.fetch_categories()
+    var categories = this.getCategories
+    if(categories.length == 0){
+        this.fetch_categories()    
+    }
+
 //   this.await_categories();
   },
 
