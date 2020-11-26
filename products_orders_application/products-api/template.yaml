@@ -5,12 +5,22 @@ Description: >
   Sample SAM Template for query-api
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
+Parameters:
+  DynamoEndpoint:
+    Type: String
+    Default: cloud
+    AllowedValues:
+      - http://dynamo-local:8000
+      - cloud
+    Description: http://dynamo-local:8000, cloud
+
+
 Globals:
   Function:
     Timeout: 3
 
 Resources:
-
   ProductsQueryApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -25,6 +35,10 @@ Resources:
       CodeUri: get_categories/
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint: !Ref DynamoEndpoint
+
       Policies:
         - DynamoDBReadPolicy:
             TableName: Categories
@@ -36,7 +50,6 @@ Resources:
             Path: /categories
             Method: get
 
-
   VendorQueryFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -44,6 +57,9 @@ Resources:
       CodeUri: query_vendor/
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint: !Ref DynamoEndpoint
       Policies:
         - DynamoDBReadPolicy:
             TableName: Products
@@ -56,7 +72,6 @@ Resources:
             Method: get
 
 
-
   CategoryQueryFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -64,6 +79,9 @@ Resources:
       CodeUri: query_category/
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint: !Ref DynamoEndpoint
       Policies:
         - DynamoDBReadPolicy:
             TableName: Products
@@ -82,6 +100,9 @@ Resources:
       CodeUri: query_category_vendor/
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint: !Ref DynamoEndpoint
       Policies:
         - DynamoDBReadPolicy:
             TableName: Products

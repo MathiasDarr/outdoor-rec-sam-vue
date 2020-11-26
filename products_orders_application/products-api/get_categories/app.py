@@ -4,9 +4,16 @@ The lambda function defined here queries the category GSI
 """
 import json
 import boto3
+import os
 
 
-dynamo_resource = boto3.resource('dynamodb') #, endpoint_url='http://localhost:8000')
+dynamo_endpoint = os.getenv('dynamo_endpoint')
+
+if dynamo_endpoint == 'cloud':
+    dynamo_resource = boto3.resource('dynamodb')
+else:
+    dynamo_resource = boto3.resource('dynamodb', endpoint_url=dynamo_endpoint)
+
 TABLE_NAME = 'Categories'
 categories_table = dynamo_resource.Table(TABLE_NAME)
 
@@ -14,8 +21,6 @@ categories_table = dynamo_resource.Table(TABLE_NAME)
 def scan_categories():
     scan_results = categories_table.scan()
     return scan_results['Items']
-
-scan_categories()
 
 
 def lambda_handler(event, context):

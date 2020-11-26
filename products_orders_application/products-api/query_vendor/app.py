@@ -1,9 +1,16 @@
 import json
 import boto3
 from boto3.dynamodb.conditions import Key
+import os
 
 
-dynamo_resource = boto3.resource('dynamodb')  # , endpoint_url='http://dynamo-local:8000')
+dynamo_endpoint = os.getenv('dynamo_endpoint')
+if dynamo_endpoint == 'cloud':
+    dynamo_resource = boto3.resource('dynamodb')
+else:
+    dynamo_resource = boto3.resource('dynamodb',endpoint_url=dynamo_endpoint)
+
+
 TABLE_NAME = 'Products'
 table = dynamo_resource.Table(TABLE_NAME)
 

@@ -1,11 +1,15 @@
 import json
 import boto3
-# import requests
+import os
 
-dynamodb = boto3.client('dynamodb', endpoint_url='http://dynamo-local:8000')
-dynamo_resource = boto3.resource('dynamodb', endpoint_url='http://dynamo-local:8000')
 
-# dynamo_resource = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+dynamo_endpoint = os.getenv('dynamo_endpoint')
+
+if dynamo_endpoint == 'cloud':
+    dynamo_resource = boto3.resource('dynamodb')
+else:
+    dynamo_resource = boto3.resource('dynamodb',endpoint_url=dynamo_endpoint)
+
 
 
 def scan_products():

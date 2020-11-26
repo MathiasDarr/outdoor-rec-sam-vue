@@ -14,3 +14,11 @@ This repository contains applications developed using the  AWS serverless applic
         - Serverless Application for querying the products database
         - API defined via swagger
 * Vue Front End
+
+
+
+### Running the web scraper and populating the database ###
+* run the web scraper & populate the dynamo products table
+    - cd data_model/rei_product_scraping
+        - python3 scrape_rei_download_images.py
+        - python3 populate_dynamo_products.py
