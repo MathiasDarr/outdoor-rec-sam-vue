@@ -47,9 +47,9 @@ def lambda_handler(event, context):
 
     categories = scan_categories()
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "categories": categories,
-        }),
-    }
+    response = {"statusCode": 200, "body": json.dumps({
+        "categories": categories
+    }), 'headers': {"Access-Control-Allow-Origin": "*"}}
+
+    return response
+

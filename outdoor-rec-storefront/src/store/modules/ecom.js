@@ -17,12 +17,25 @@ const getters = {
 const actions = {
 
   async fetchCategories({commit}){
-    
-    //var url = 'http://localhost:3000/categories'
-    var url = 'https://x2vynvd06e.execute-api.us-west-2.amazonaws.com/Prod/categories'
-
+    var url = window.__runtime_configuration.apiEndpoint + '/categories'
     axios.get(url).then((response) => {
-      commit('setCategories', response.data)
+      
+      var response_categories = response.data.categories
+      var categories = []
+      
+      // response_categories.forEach(function (category) {
+      //   categories.push(category)
+      // });
+
+      response_categories.forEach((category) => {
+        categories.push(category.subcategory)
+
+    });
+
+
+      console.log(categories)
+      commit('setCategories', category)
+    
     }, (error) => {
       console.log(error);
     });

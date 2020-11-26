@@ -3,6 +3,14 @@ Transform: AWS::Serverless-2016-10-31
 Description: 'query-ap Sample SAM Template for query-api
 
   '
+Parameters:
+  DynamoEndpoint:
+    Type: String
+    Default: cloud
+    AllowedValues:
+    - http://dynamo-local:8000
+    - cloud
+    Description: http://dynamo-local:8000, cloud
 Globals:
   Function:
     Timeout: 3
@@ -17,9 +25,13 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: GetCategoriesFunction
-      CodeUri: s3://dakobed-serverless-apis/74a8faa843ee0f84659e5f6dbcd06d9a
+      CodeUri: s3://dakobed-serverless-apis/c69db2c214a129a0b3fc5bb2c3207581
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint:
+            Ref: DynamoEndpoint
       Policies:
       - DynamoDBReadPolicy:
           TableName: Categories
@@ -35,9 +47,13 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/71918acce8ac572ab25252231fcd72bb
+      CodeUri: s3://dakobed-serverless-apis/11d2bf9f37be10b64ad07d717b9b75c7
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint:
+            Ref: DynamoEndpoint
       Policies:
       - DynamoDBReadPolicy:
           TableName: Products
@@ -53,9 +69,13 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CategoryQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/5b9b80e7beede7a43b8bc7bce1c3e118
+      CodeUri: s3://dakobed-serverless-apis/4b01d25cddd3db17162fc051ab7f8ad0
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint:
+            Ref: DynamoEndpoint
       Policies:
       - DynamoDBReadPolicy:
           TableName: Products
@@ -71,9 +91,13 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorCategoryQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/e63d7e21f84d0d5cd147bcd0da1b91a6
+      CodeUri: s3://dakobed-serverless-apis/8c3865e695bd8ad9b78b758f085ababc
       Handler: app.lambda_handler
       Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint:
+            Ref: DynamoEndpoint
       Policies:
       - DynamoDBReadPolicy:
           TableName: Products

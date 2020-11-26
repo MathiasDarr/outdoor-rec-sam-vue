@@ -43,10 +43,8 @@ def lambda_handler(event, context):
     for product in products:
         product['price'] = float(product['price'])
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": products
-            # "location": ip.text.replace("\n", "")
-        }),
-    }
+    response = {"statusCode": 200, "body": json.dumps({
+        "message": products
+    }), 'headers': {"Access-Control-Allow-Origin": "*"}}
+
+    return response

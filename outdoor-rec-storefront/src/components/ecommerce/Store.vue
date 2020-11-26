@@ -2,12 +2,13 @@
   <v-container>
     <v-layout>
       <v-flex md2>
-        <BaseNavBar v-bind:items=items />
+        <!-- <BaseNavBar v-bind:categories=cate /> -->
+        <CategoriesNavBar /> 
       </v-flex>
       <v-flex md10>
-        <!-- <v-card flat>
-          <ProductList />
-        </v-card> -->
+          <!-- <v-card flat>
+            <ProductList />
+          </v-card> -->
       </v-flex>
 
     </v-layout>
@@ -15,14 +16,18 @@
 </template>
 
 <script>
+/* eslint-disable */
 
-import BaseNavBar from '../BaseNavBar'
+// import BaseNavBar from '../BaseNavBar'
 import { mapGetters, mapActions } from "vuex";
 // import ProductList from './ProductList'
 
+import CategoriesNavBar from './CategoriesNavBar'
+
 export default {
     components:{
-        BaseNavBar,
+        CategoriesNavBar
+        // BaseNavBar,
         // ProductList
     },
 
@@ -33,18 +38,15 @@ export default {
         ...mapGetters(["allProducts", "getCategories"]),
     },
     created(){
-      this.fetchCategories()
+      // this.fetchCategories()
+      // this.categories = this.getCategories
 // this.fetchProducts();
     },
 
     data(){
 
         return {
-            items: [
-                { title: 'Mens Boots', icon: 'mdi-image', route:'/storefront' },
-                { title: 'Men Cart', icon: 'mdi-image', route:'/cart' },
 
-          ],
         }
     }
 }
