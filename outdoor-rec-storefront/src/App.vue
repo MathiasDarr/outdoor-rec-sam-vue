@@ -51,11 +51,9 @@ export default {
         drawer: false,
         menuItems:[
           {title:'Store', route:'/' }, 
-          {title:'Login', route:'/login/' }, 
+          {title: 'Shopping Cart', route: 'cart'},
+          {title:'Login', route:'/login/' }
 
-          // {title: 'Kafka Microservices', route:'/eventservices' },
-          // {title: 'Style Transfer', route:'/style' }
-          // // {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
 
         ],
 

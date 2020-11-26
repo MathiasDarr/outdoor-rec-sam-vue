@@ -42,10 +42,10 @@ def create_categories_table():
 
 if __name__ == '__main__':
 
-    dynamodb = boto3.resource('dynamodb', region_name='us-west-2') #, endpoint_url='http://localhost:8000')
+    dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url='http://localhost:8000')
 
-    #create_categories_table()
-    sleep(2)
+    create_categories_table()
+    sleep(5)
 
     table = dynamodb.Table('Categories')
 

@@ -6,7 +6,7 @@ import Register from './components/Register'
 import Confirm from './components/Confirm'
 
 import Store from './components/ecommerce/Store'
-
+import ShoppingCart from './components/ecommerce/ShoppingCart'
 
 Vue.use(Router)
 
@@ -35,6 +35,10 @@ export default new Router({
       name:'confirm',
       component: Confirm
     },
+    {
+      path:'/cart',
+      component: ShoppingCart
+    }
 
 
     // {

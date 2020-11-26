@@ -5,19 +5,33 @@ import axios from 'axios';
 
 const state = {
     products: [],
-    cart: []
+    cart: [],
+    categories: []
 };
 
 const getters = {
   getProducts: state => state.products,
-
+  getCategories: state => state.categories
 };
 
 const actions = {
 
+  async fetchCategories({commit}){
+    
+    //var url = 'http://localhost:3000/categories'
+    var url = 'https://x2vynvd06e.execute-api.us-west-2.amazonaws.com/Prod/categories'
+
+    axios.get(url).then((response) => {
+      commit('setCategories', response.data)
+    }, (error) => {
+      console.log(error);
+    });
+  },
+
+
 
   async fetchProducts({commit}){
-    axios.get('http://localhost:8085/products').then((response) => {
+    axios.get('http://localhost:3000/products').then((response) => {
       commit('setProducts', response.data)
     }, (error) => {
       console.log(error);
@@ -33,7 +47,7 @@ const actions = {
 };
 
 const mutations = {
-    
+    setCategories: (state, categories) => (state.categories = categories),
     setProducts: (state, products) => (state.products = products),
     addDeleteItem (state, product ) {
         console.log("what the fuc" + product.id)

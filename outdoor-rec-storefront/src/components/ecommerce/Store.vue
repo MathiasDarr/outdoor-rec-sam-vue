@@ -18,22 +18,23 @@
 
 import BaseNavBar from '../BaseNavBar'
 import { mapGetters, mapActions } from "vuex";
-import ProductList from './ProductList'
+// import ProductList from './ProductList'
 
 export default {
     components:{
         BaseNavBar,
-        ProductList
+        // ProductList
     },
 
     methods:{
-        ...mapActions(["fetchProducts"]),
+        ...mapActions(["fetchProducts", "fetchCategories"]),
     },
     computed: {
-        ...mapGetters(["allProducts"]),
+        ...mapGetters(["allProducts", "getCategories"]),
     },
     created(){
-      this.fetchProducts();
+      this.fetchCategories()
+// this.fetchProducts();
     },
 
     data(){

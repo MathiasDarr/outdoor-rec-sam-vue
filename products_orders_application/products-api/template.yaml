@@ -16,24 +16,7 @@ Resources:
     Properties:
       StageName: Prod
       Name: ProductsAPI
-
-  VendorQueryFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      FunctionName: VendorQueryFunction
-      CodeUri: query_vendor/
-      Handler: app.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: Products
-      Events:
-        VendorQuery:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            RestApiId: !Ref ProductsQueryApi
-            Path: /products/vendor/{vendor_id}
-            Method: get
+      DefinitionUri: ./swagger.yaml
 
   GetCategoriesFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -54,52 +37,72 @@ Resources:
             Method: get
 
 
-  CategoryQueryFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      FunctionName: CategoryQueryFunction
-      CodeUri: query_category/
-      Handler: app.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: Products
-      Events:
-        VendorQuery:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            RestApiId: !Ref ProductsQueryApi
-            Path: /products/category/{category}
-            Method: get
+#  VendorQueryFunction:
+#    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+#    Properties:
+#      FunctionName: VendorQueryFunction
+#      CodeUri: query_vendor/
+#      Handler: app.lambda_handler
+#      Runtime: python3.7
+#      Policies:
+#        - DynamoDBReadPolicy:
+#            TableName: Products
+#      Events:
+#        VendorQuery:
+#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+#          Properties:
+#            RestApiId: !Ref ProductsQueryApi
+#            Path: /products/vendor/{vendor_id}
+#            Method: get
+#
 
-  ProductsScanFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      FunctionName: ProductsScanFunction
-      CodeUri: scan_products/
-      Handler: app.lambda_handler
-      Runtime: python3.7
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: Products
-      Events:
-        ProductsQuery:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            RestApiId: !Ref ProductsQueryApi
-            Path: /products
-            Method: get
 
-Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  ProductsQueryApi:
-    Description: "API Gateway endpoint URL for Prod stage for ProductsQueryFunction"
-    Value: !Sub "https://${ProductsQueryApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/products/"
-  ProductsScanFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt ProductsScanFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt ProductsScanFunction.Arn
+#  CategoryQueryFunction:
+#    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+#    Properties:
+#      FunctionName: CategoryQueryFunction
+#      CodeUri: query_category/
+#      Handler: app.lambda_handler
+#      Runtime: python3.7
+#      Policies:
+#        - DynamoDBReadPolicy:
+#            TableName: Products
+#      Events:
+#        VendorQuery:
+#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+#          Properties:
+#            RestApiId: !Ref ProductsQueryApi
+#            Path: /products/category/{category}
+#            Method: get
+
+#  ProductsScanFunction:
+#    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+#    Properties:
+#      FunctionName: ProductsScanFunction
+#      CodeUri: scan_products/
+#      Handler: app.lambda_handler
+#      Runtime: python3.7
+#      Policies:
+#        - DynamoDBReadPolicy:
+#            TableName: Products
+#      Events:
+#        ProductsQuery:
+#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+#          Properties:
+#            RestApiId: !Ref ProductsQueryApi
+#            Path: /products
+#            Method: get
+
+#Outputs:
+#  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+#  # Find out more about other implicit resources you can reference within SAM
+#  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+#  ProductsQueryApi:
+#    Description: "API Gateway endpoint URL for Prod stage for ProductsQueryFunction"
+#    Value: !Sub "https://${ProductsQueryApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/products/"
+#  ProductsScanFunction:
+#    Description: "Hello World Lambda Function ARN"
+#    Value: !GetAtt ProductsScanFunction.Arn
+#  HelloWorldFunctionIamRole:
+#    Description: "Implicit IAM Role created for Hello World function"
+#    Value: !GetAtt ProductsScanFunction.Arn

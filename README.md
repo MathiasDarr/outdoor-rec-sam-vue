@@ -12,5 +12,5 @@ This repository contains applications developed using the  AWS serverless applic
             - Regex
     * Product Query API
         - Serverless Application for querying the products database
-
+        - API defined via swagger
 * Vue Front End
