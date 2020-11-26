@@ -20,10 +20,9 @@ def query_products_by_category(category):
         KeyConditionExpression=Key('category').eq(category),
     )
     products = response['Items']
+    for product in products:
+        product['price'] = float(product['price'])
     return products
-    # for product in products:
-    #     product['price'] = float(product['price'])
-    # return products
 
 
 def lambda_handler(event, context):
@@ -54,7 +53,7 @@ def lambda_handler(event, context):
     return {
         "statusCode": 200,
         "body": json.dumps({
-            "products": str(products),
+            "products": products,
             # "type": str(event.keys())
             # "location": ip.text.replace("\n", "")
         }),

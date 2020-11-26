@@ -37,43 +37,43 @@ Resources:
             Method: get
 
 
-#  VendorQueryFunction:
-#    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-#    Properties:
-#      FunctionName: VendorQueryFunction
-#      CodeUri: query_vendor/
-#      Handler: app.lambda_handler
-#      Runtime: python3.7
-#      Policies:
-#        - DynamoDBReadPolicy:
-#            TableName: Products
-#      Events:
-#        VendorQuery:
-#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-#          Properties:
-#            RestApiId: !Ref ProductsQueryApi
-#            Path: /products/vendor/{vendor_id}
-#            Method: get
-#
+  VendorQueryFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: VendorQueryFunction
+      CodeUri: query_vendor/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: Products
+      Events:
+        VendorQuery:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref ProductsQueryApi
+            Path: /products/vendor/{vendor_id}
+            Method: get
 
 
-#  CategoryQueryFunction:
-#    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-#    Properties:
-#      FunctionName: CategoryQueryFunction
-#      CodeUri: query_category/
-#      Handler: app.lambda_handler
-#      Runtime: python3.7
-#      Policies:
-#        - DynamoDBReadPolicy:
-#            TableName: Products
-#      Events:
-#        VendorQuery:
-#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-#          Properties:
-#            RestApiId: !Ref ProductsQueryApi
-#            Path: /products/category/{category}
-#            Method: get
+
+  CategoryQueryFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: CategoryQueryFunction
+      CodeUri: query_category/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: Products
+      Events:
+        VendorQuery:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref ProductsQueryApi
+            Path: /products/category/{category}
+            Method: get
 
 #  ProductsScanFunction:
 #    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction

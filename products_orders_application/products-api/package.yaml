@@ -12,12 +12,12 @@ Resources:
     Properties:
       StageName: Prod
       Name: ProductsAPI
-      DefinitionUri: s3://dakobed-serverless-apis/30e6c319a158449345916aa84fa715f7
+      DefinitionUri: s3://dakobed-serverless-apis/4195c31155d8611da942cdf00ce3f2bb
   GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: GetCategoriesFunction
-      CodeUri: s3://dakobed-serverless-apis/865c6211428394498f4ada9409952f4b
+      CodeUri: s3://dakobed-serverless-apis/3ae08edb2f32f1b1b2536a8b10f3d195
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
@@ -30,4 +30,40 @@ Resources:
             RestApiId:
               Ref: ProductsQueryApi
             Path: /categories
+            Method: get
+  VendorQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: VendorQueryFunction
+      CodeUri: s3://dakobed-serverless-apis/71918acce8ac572ab25252231fcd72bb
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Products
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ProductsQueryApi
+            Path: /products/vendor/{vendor_id}
+            Method: get
+  CategoryQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CategoryQueryFunction
+      CodeUri: s3://dakobed-serverless-apis/776a376d82d68a08f3c2207b4e0a16fb
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Products
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: ProductsQueryApi
+            Path: /products/category/{category}
             Method: get
