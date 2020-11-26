@@ -8,6 +8,8 @@ import Confirm from './components/Confirm'
 import Store from './components/ecommerce/Store'
 import ShoppingCart from './components/ecommerce/ShoppingCart'
 
+import ProductList from './components/ecommerce/ProductList'
+
 Vue.use(Router)
 
 export default new Router({
@@ -38,6 +40,12 @@ export default new Router({
     {
       path:'/cart',
       component: ShoppingCart
+    },
+    {
+      name: "products",
+      path:"/products/:category",
+      component: ProductList,
+      props: true
     }
 
 

@@ -26,7 +26,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon> -->
 
-          <v-list-item-content>
+          <v-list-item-content @click="navigate(category)" >
             <v-list-item-title>{{ category}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -87,18 +87,16 @@ export default {
         },
 
 
-
         async await_categories(){
             await this.fetchCategories()
             this.categories = this.getCategories
-            console.log('THE CATEGORIESW ARE')
-            console.log(this.categories)
         },
         
-        navigate(route){
-            if(route != this.$route.path){
-            router.push(route)
-            }
+        navigate(category){
+            router.push({ name: 'products', params: { category: category } })
+            // if(route != this.$route.path){
+            //     router.push({ name: 'transcription_detail', params: { fileID: fileID } })
+            // }
         }
     },
     computed: {
@@ -117,7 +115,7 @@ export default {
 
   data () {
       return {
-        categories : ''
+        categories : []
 
       }
     },

@@ -1,30 +1,43 @@
 <template>
+  <v-container>
+    <v-layout>
+      <v-flex md3>
+        <!-- <BaseNavBar v-bind:categories=cate /> -->
+        <CategoriesNavBar /> 
+      </v-flex>
+      <v-flex md9>
+        {{ category }}
+          <!-- <v-card flat>
+            <ProductList />
+          </v-card> -->
+      </v-flex>
+
+    </v-layout>
+  </v-container>
+</template>
+
+
+<!--
+<template>
   <v-container fluid="">
     <v-layout row wrap>
       <v-card flat>
-       <v-card-title>
-           Dakobed Products Store
-       </v-card-title>
+
        <v-layout row>
         <v-flex xs3 md3 offset-sm1 v-for="item in getProducts" v-bind:key=item.id>
             <ProductCard v-bind:productID="item.id" v-bind:productName="item.productName" 
             v-bind:imageURL="item.imageURL" v-bind:productPrice="item.price"/>
-              <!-- <v-card >
-                  <v-img :src="item.imageURL" height="200px" width="100"></v-img>
-                  
-              </v-card> -->
-              
+              <v-card >
+                  <v-img :src="item.imageURL" height="200px" width="100"></v-img> 
+              </v-card>
           </v-flex>
 
        </v-layout>
 
-       <!-- <v-card-text>
-           {{getProducts}}
 
-       </v-card-text> -->
       </v-card>
         
-          <!-- <v-flex md6 offset-1>
+          <v-flex md6 offset-1>
 
           </v-flex>
           <v-flex md3 offset-1>
@@ -38,36 +51,77 @@
               </v-btn>
         
             </v-card>
-          </v-flex> -->
-
-
+          </v-flex> 
       </v-layout>
   </v-container>
 </template>
+-->
 
 
 <script>
+/* eslint-disable */
 
 
 
 
 import { mapGetters, mapActions } from "vuex";
 import ProductCard from './ProductCard'
+import CategoriesNavBar from './CategoriesNavBar'
+import axios from 'axios';
+
 
 export default {
     components:{
-        ProductCard
+        ProductCard,
+        CategoriesNavBar
     },
+
+    props:{
+
+    },
+
 
     methods:{
         ...mapActions(["fetchProducts"]),
+
+        async fetch_products(category){
+            try{
+                var url = window.__runtime_configuration.apiEndpoint + '/products/category/' + category 
+                const response = await axios.get(url)
+                
+                var response_categories = response.data.categories
+                var categories = []
+                // response_categories.forEach(function (category) {
+                //   categories.push(category)
+                // });
+                // response_categories.forEach((category) => {
+                //     categories.push(category.category)
+                // });
+                this.categories = categories
+            }catch(err){
+                console.log(err)
+            }
+        },
     },
     computed: {
         ...mapGetters(["getProducts"]),
     },
     created(){
-        console.log("DFDFDF")
-      this.fetchProducts();
+      this.category = this.$route.params.category
+      console.log(this.category)
+      // this.fetch_products('mens-boots')
+      //   console.log("DFDFDF")
+      // this.fetchProducts();
     },
+
+    data () {
+      return {
+        products : []
+
+      }
+    },
+
+
+
 }
 </script>
