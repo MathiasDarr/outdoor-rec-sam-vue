@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-card  height="400" flat>
-      <v-navigation-drawer
+        {{ categories }}
+      <!-- <v-navigation-drawer
         absolute >
         <v-list
           dense
@@ -20,20 +21,51 @@
          </v-list-item>
         </v-list>
       </v-navigation-drawer>
-        {{ categories }}
+        {{ categories }} -->
     </v-card>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-// import router from '../../router'
+
+import router from '../../router'
 import { mapGetters, mapActions } from "vuex";
+import axios from 'axios';
 
 export default {
 
     methods:{
         ...mapActions(["fetchCategories"]),
+        
+        async fetch_categories(){
+            try{
+                var url = window.__runtime_configuration.apiEndpoint + '/categories'
+                const response = await axios.get(url)
+                
+                var response_categories = response.data.categories
+                var categories = []
+                // response_categories.forEach(function (category) {
+                //   categories.push(category)
+                // });
+                response_categories.forEach((category) => {
+                    categories.push(category.subcategory)
+                });
+                this.categories = categories
+            }catch(err){
+                console.log(err)
+            }
+        },
+
+
+
+        async await_categories(){
+            await this.fetchCategories()
+            this.categories = this.getCategories
+            console.log('THE CATEGORIESW ARE')
+            console.log(this.categories)
+        },
+        
         navigate(route){
             if(route != this.$route.path){
             router.push(route)
@@ -45,14 +77,14 @@ export default {
     },
 
   created(){
-      this.fetchCategories()
-      this.categories = this.getCategories
+    this.fetch_categories()
+//   this.await_categories();
   },
 
 
   data () {
       return {
-
+        categories : ''
 
       }
     },

@@ -22,19 +22,14 @@ const actions = {
       
       var response_categories = response.data.categories
       var categories = []
-      
       // response_categories.forEach(function (category) {
       //   categories.push(category)
       // });
-
       response_categories.forEach((category) => {
         categories.push(category.subcategory)
+      });
 
-    });
-
-
-      console.log(categories)
-      commit('setCategories', category)
+      commit('setCategories', categories)
     
     }, (error) => {
       console.log(error);
