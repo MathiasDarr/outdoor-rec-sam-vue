@@ -6,7 +6,7 @@ import json
 import boto3
 
 
-dynamo_resource = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
+dynamo_resource = boto3.resource('dynamodb') #, endpoint_url='http://localhost:8000')
 TABLE_NAME = 'Categories'
 categories_table = dynamo_resource.Table(TABLE_NAME)
 
@@ -40,11 +40,11 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
-    # categories = scan_categories()
+    categories = scan_categories()
 
     return {
         "statusCode": 200,
         "body": json.dumps({
-            "categories": 'hello',
+            "categories": categories,
         }),
     }

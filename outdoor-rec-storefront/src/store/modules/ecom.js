@@ -50,7 +50,6 @@ const mutations = {
     setCategories: (state, categories) => (state.categories = categories),
     setProducts: (state, products) => (state.products = products),
     addDeleteItem (state, product ) {
-        console.log("what the fuc" + product.id)
 
         if(state.cart.has(product.id)){
              state.cart.set(state.cart.get(product.id) + product.quantity)

@@ -17,7 +17,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: GetCategoriesFunction
-      CodeUri: s3://dakobed-serverless-apis/3ae08edb2f32f1b1b2536a8b10f3d195
+      CodeUri: s3://dakobed-serverless-apis/74a8faa843ee0f84659e5f6dbcd06d9a
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
