@@ -51,9 +51,8 @@ Resources:
       - ADMIN_NO_SRP_AUTH
 Outputs:
   UserPool:
-    Description: REPLACE_ME_ACCOUNT_ID
     Value:
-      Ref: AWS::AccountId
+      Ref: UserPool
     Export:
       Name:
         Fn::Join:
@@ -61,12 +60,16 @@ Outputs:
         - - Ref: AWS::StackName
           - UserPool
   UserPoolClient:
-    Description: REPLACE_ME_ACCOUNT_ID
     Value:
-      Ref: AWS::AccountId
+      Ref: UserPoolClient
     Export:
       Name:
         Fn::Join:
         - ':'
         - - Ref: AWS::StackName
           - UserPoolClient
+  UserPoolARN:
+    Export:
+      Name: UserPool
+    Value:
+      Fn::GetAtt: UserPool.Arn
