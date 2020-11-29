@@ -1,9 +1,14 @@
 #!/bin/bash
 
-#!/bin/sh
-
 # IMPORTANT: Bucket names must be unique for all AWS users.
 BUCKET="mir-cloudformation-artifacts"
+
+if [[ -z $2 ]]
+then
+  stackname=outdoorec-userpool-stack
+else
+  stackname=$2
+fi
 
 # Uploads files to S3 bucket and creates CloudFormation template
 aws cloudformation package \
@@ -11,8 +16,7 @@ aws cloudformation package \
     --s3-bucket $BUCKET \
     --output-template-file package.yaml
 
-## Deploys your stack
 aws cloudformation deploy \
-    --template-file package.yaml \
-    --stack-name DakobedCognitoUserPool \
-    --capabilities CAPABILITY_IAM
+      --template-file package.yaml \
+      --stack-name ${stackname} \
+      --capabilities CAPABILITY_NAMED_IAM

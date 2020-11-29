@@ -57,6 +57,7 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": json.dumps({
             "products": products,
+            'headers': {"Access-Control-Allow-Origin": "*"}
             # "type": str(event.keys())
             # "location": ip.text.replace("\n", "")
         }),

@@ -51,3 +51,15 @@ Resources:
       UserPoolId: !Ref UserPool
       ExplicitAuthFlows:
         - ADMIN_NO_SRP_AUTH
+
+
+Outputs:
+  UserPool:
+    Value: !Ref UserPool
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'UserPool' ] ]
+
+  UserPoolClient:
+    Value: !Ref UserPoolClient
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'UserPoolClient' ] ]

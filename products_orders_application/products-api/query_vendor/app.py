@@ -3,13 +3,11 @@ import boto3
 from boto3.dynamodb.conditions import Key
 import os
 
-
 dynamo_endpoint = os.getenv('dynamo_endpoint')
 if dynamo_endpoint == 'cloud':
     dynamo_resource = boto3.resource('dynamodb')
 else:
-    dynamo_resource = boto3.resource('dynamodb',endpoint_url=dynamo_endpoint)
-
+    dynamo_resource = boto3.resource('dynamodb', endpoint_url=dynamo_endpoint)
 
 TABLE_NAME = 'Products'
 table = dynamo_resource.Table(TABLE_NAME)
@@ -50,11 +48,8 @@ def lambda_handler(event, context):
     vendor = event['pathParameters']['vendor_id']
     products = query_products_by_vendor(vendor)
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "products": str(products),
-            # "type": str(event.keys())
-            # "location": ip.text.replace("\n", "")
-        }),
-    }
+    response = {"statusCode": 200, "body": json.dumps({
+        "categories": products
+    }), 'headers': {"Access-Control-Allow-Origin": "*"}}
+
+    return response

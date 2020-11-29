@@ -88,16 +88,9 @@ export default {
             try{
                 var url = window.__runtime_configuration.apiEndpoint + '/products/category/' + category 
                 const response = await axios.get(url)
-                
-                var response_categories = response.data.categories
-                var categories = []
-                // response_categories.forEach(function (category) {
-                //   categories.push(category)
-                // });
-                // response_categories.forEach((category) => {
-                //     categories.push(category.category)
-                // });
-                this.categories = categories
+                var products = response.data.products
+                console.log(products)
+                this.products = products
             }catch(err){
                 console.log(err)
             }
@@ -109,6 +102,7 @@ export default {
     created(){
       this.category = this.$route.params.category
       console.log(this.category)
+      this.fetch_products(this.category)
       // this.fetch_products('mens-boots')
       //   console.log("DFDFDF")
       // this.fetchProducts();

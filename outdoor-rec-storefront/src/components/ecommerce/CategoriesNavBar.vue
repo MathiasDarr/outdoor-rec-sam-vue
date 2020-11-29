@@ -72,15 +72,16 @@ export default {
                 var url = window.__runtime_configuration.apiEndpoint + '/categories'
                 const response = await axios.get(url)
                 
-                var response_categories = response.data.categories
+                var response_categories = JSON.parse(response.data.body)
+                console.log(response_categories.categories)
                 var categories = []
                 // response_categories.forEach(function (category) {
                 //   categories.push(category)
                 // });
-                response_categories.forEach((category) => {
-                    categories.push(category.category)
-                });
-                this.categories = categories
+                // response_categories.forEach((category) => {
+                //     categories.push(category.category)
+                // });
+                // this.categories = categories
             }catch(err){
                 console.log(err)
             }

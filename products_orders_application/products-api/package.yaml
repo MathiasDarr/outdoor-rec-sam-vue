@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: GetCategoriesFunction
-      CodeUri: s3://dakobed-serverless-apis/c69db2c214a129a0b3fc5bb2c3207581
+      CodeUri: s3://dakobed-serverless-apis/a62fe191ff911fcde76553107f815a71
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -47,7 +47,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/11d2bf9f37be10b64ad07d717b9b75c7
+      CodeUri: s3://dakobed-serverless-apis/6ef9ef7d216ea1e320dae2da1fffde30
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -69,7 +69,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CategoryQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/4b01d25cddd3db17162fc051ab7f8ad0
+      CodeUri: s3://dakobed-serverless-apis/a496951e27616cf037b6cbd283535e8c
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -91,7 +91,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorCategoryQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/8c3865e695bd8ad9b78b758f085ababc
+      CodeUri: s3://dakobed-serverless-apis/28dae270df2608e28b3ca743f03ee422
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
