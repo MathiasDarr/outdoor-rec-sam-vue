@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'query-ap Sample SAM Template for query-api
+
+  '
+Parameters:
+  DynamoEndpoint:
+    Type: String
+    Default: cloud
+    AllowedValues:
+    - http://dynamo-local:8000
+    - cloud
+    Description: http://dynamo-local:8000, cloud
+Resources:
+  OrdersAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors: '''*'''
+  CustomersOrdersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CustomersOrdersFunction
+      CodeUri: s3://dakobed-serverless-apis/056b275824a949eceb07454bcf4e045e
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint:
+            Ref: DynamoEndpoint
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Orders
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: OrdersAPI
+            Path: /orders/{customerID}
+            Method: get

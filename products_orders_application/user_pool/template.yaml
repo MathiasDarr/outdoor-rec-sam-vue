@@ -67,7 +67,7 @@ Outputs:
 
   UserPoolARN:
     Export:
-      Name: UserPool
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'UserPoolARN' ] ]
     Value:
       Fn::GetAtt: UserPool.Arn
 

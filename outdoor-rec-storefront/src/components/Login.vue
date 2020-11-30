@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       email: 'dakobedbard@gmail.com',
-      password: '1!Iksarmanssss',
+      password: '1!ZionTF',
       error: null,
       loading: false
     }

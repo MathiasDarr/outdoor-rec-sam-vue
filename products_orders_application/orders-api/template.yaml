@@ -4,15 +4,47 @@ Description: >
   query-ap
   Sample SAM Template for query-api
 
+Parameters:
+  DynamoEndpoint:
+    Type: String
+    Default: cloud
+    AllowedValues:
+      - http://dynamo-local:8000
+      - cloud
+    Description: http://dynamo-local:8000, cloud
+
+
 
 Resources:
-  MyApi:
+  OrdersAPI:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
       Cors: "'*'"
-      Auth:
-        DefaultAuthorizer: MyCognitoAuthorizer
-        Authorizers:
-          MyCognitoAuthorizer:
-            UserPoolArn: !ImportValue
+#      Auth:
+#        DefaultAuthorizer: MyCognitoAuthorizer
+#        Authorizers:
+#          MyCognitoAuthorizer:
+#            UserPoolArn: !ImportValue outdoorec-userpool-stack:UserPoolARN
+
+  CustomersOrdersFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: CustomersOrdersFunction
+      CodeUri: query_customers_orders/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint: !Ref DynamoEndpoint
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: Orders
+      Events:
+        VendorQuery:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref OrdersAPI
+            Path: /orders/{customerID}
+            Method: get
+

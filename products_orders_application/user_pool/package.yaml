@@ -70,6 +70,10 @@ Outputs:
           - UserPoolClient
   UserPoolARN:
     Export:
-      Name: UserPool
+      Name:
+        Fn::Join:
+        - ':'
+        - - Ref: AWS::StackName
+          - UserPoolARN
     Value:
       Fn::GetAtt: UserPool.Arn
