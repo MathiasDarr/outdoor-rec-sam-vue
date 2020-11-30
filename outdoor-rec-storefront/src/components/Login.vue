@@ -46,6 +46,9 @@
 </template>
 
 <script>
+
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: 'Login',
   data () {
@@ -57,6 +60,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["setJWT"]),
     login () {
         this.loading = true
         /*eslint no-unused-vars: "off"*/
@@ -65,7 +69,13 @@ export default {
                 this.error = err
                 this.loading = false
             } else {
-                this.$router.push('/profile')
+                var id_token = result.idToken.jwtToken
+                var access_token = result.accessToken.jwtToken
+                var refreshToken = result.accessToken.refreshToken
+                
+                var tokens = {access:access_token, id:id_token, refresh: refreshToken}
+                this.setJWT(tokens)
+                this.$router.push({name:'storefront'})
             }
         });
     }

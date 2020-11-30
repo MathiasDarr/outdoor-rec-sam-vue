@@ -6,6 +6,8 @@
         <CategoriesNavBar /> 
       </v-flex>
       <v-flex md9>
+          Id token
+          {{ getIdToken}}
           <!-- <v-card flat>
             <ProductList />
           </v-card> -->
@@ -35,7 +37,7 @@ export default {
         ...mapActions(["fetchProducts", "fetchCategories"]),
     },
     computed: {
-        ...mapGetters(["allProducts", "getCategories"]),
+        ...mapGetters(["allProducts", "getCategories", "getIdToken"]),
     },
     created(){
       // this.fetchCategories()
