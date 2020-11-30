@@ -28,26 +28,26 @@ export default {
     methods:{
         async fetch_orders(){
             try{
-                var url = window.__runtime_configuration.apiEndpoint + '/orders/' + this.getEmail
-                const response = await axios.get(url)
+                var api_endpoint = 'https://m80uwr2znb.execute-api.us-west-2.amazonaws.com/Prod'
+                console.log(api_endpoint)
+                var url = api_endpoint + '/orders/' + this.getEmail
+                const response = await axios.get(url, {
+                headers: {
+                        Authorization: this.getIdToken
+                    }
+                })
                 
-                var response_categories = JSON.parse(response.data.body)
-                console.log(response_categories.categories)
-                var categories = []
-                // response_categories.forEach(function (category) {
-                //   categories.push(category)
-                // });
-                // response_categories.forEach((category) => {
-                //     categories.push(category.category)
-                // });
-                // this.categories = categories
+                var response_orders = JSON.parse(response.data.body)
+                console.log(response)
+                var orders = []
+ 
             }catch(err){
                 console.log(err)
             }
         },
 
 
-        async await_categories(){
+        async await_orders(){
             await this.fetch_orders()
             // this.orders = this.getCategories
         },
@@ -59,6 +59,7 @@ export default {
         ...mapGetters(["getEmail", "getIdToken"]),
     },
     created(){
+        this.await_orders()
       // this.fetchCategories()
       // this.categories = this.getCategories
 // this.fetchProducts();

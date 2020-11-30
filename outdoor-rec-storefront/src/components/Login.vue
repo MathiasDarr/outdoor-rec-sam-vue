@@ -60,7 +60,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["setJWT"]),
+    ...mapActions(["setJWT", "setEmail"]),
     login () {
         this.loading = true
         /*eslint no-unused-vars: "off"*/
@@ -74,7 +74,9 @@ export default {
                 var refreshToken = result.accessToken.refreshToken
                 var tokens = {access:access_token, id:id_token, refresh: refreshToken}
                 this.setJWT(tokens)
-                this.$router.push({name:'storefront'})
+                this.setEmail(this.email)
+                this.$router.push({name:'orders'})
+                // this.$router.push({name:'storefront'})
             }
         });
     }
