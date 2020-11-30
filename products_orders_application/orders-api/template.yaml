@@ -22,8 +22,8 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: OrdersAPI
+      DefinitionUri: ./swagger.yaml
       StageName: Prod
-      Cors: "'*'"
       Auth:
         DefaultAuthorizer: MyCognitoAuthorizer
         Authorizers:

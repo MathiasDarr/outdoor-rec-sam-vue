@@ -19,8 +19,8 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: OrdersAPI
+      DefinitionUri: s3://dakobed-serverless-apis/69ed48ae9bd4b6d18f67abc681cae8d3
       StageName: Prod
-      Cors: '''*'''
       Auth:
         DefaultAuthorizer: MyCognitoAuthorizer
         Authorizers:
@@ -31,7 +31,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CustomersOrdersFunction
-      CodeUri: s3://dakobed-serverless-apis/2444d3643818968bcf11394bf0cfd3cd
+      CodeUri: s3://dakobed-serverless-apis/e2989006f8b04e2529f26f6aaaffef34
       Layers:
       - Ref: AuthorizationLayer
       Handler: app.lambda_handler

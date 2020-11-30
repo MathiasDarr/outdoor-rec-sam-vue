@@ -44,8 +44,8 @@ def lambda_handler(event, context):
 
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
-    # vendor = event['pathParams']['vendor']
-    vendor = event['pathParameters']['vendor_id']
+
+    vendor = event['pathParameters']['vendor']
     products = query_products_by_vendor(vendor)
 
     response = {"statusCode": 200, "body": json.dumps({
