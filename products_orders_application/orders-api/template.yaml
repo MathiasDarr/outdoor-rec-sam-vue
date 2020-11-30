@@ -5,6 +5,10 @@ Description: >
   Sample SAM Template for query-api
 
 Parameters:
+  Region:
+    Type: String
+    Default: us-west-2
+
   DynamoEndpoint:
     Type: String
     Default: cloud
@@ -12,8 +16,6 @@ Parameters:
       - http://dynamo-local:8000
       - cloud
     Description: http://dynamo-local:8000, cloud
-
-
 
 Resources:
   OrdersAPI:
@@ -33,11 +35,18 @@ Resources:
     Properties:
       FunctionName: CustomersOrdersFunction
       CodeUri: query_customers_orders/
+      Layers:
+        - !Ref AuthorizationLayer
+
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
         Variables:
           dynamo_endpoint: !Ref DynamoEndpoint
+          userpool_id: !ImportValue outdoorec-userpool-stack:UserPool
+          app_client_id: !ImportValue outdoorec-userpool-stack:UserPoolClient
+          region: !Ref Region
+
       Policies:
         - DynamoDBReadPolicy:
             TableName: Orders
@@ -48,4 +57,15 @@ Resources:
             RestApiId: !Ref OrdersAPI
             Path: /orders/{customerID}
             Method: get
+
+
+  AuthorizationLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: py-jose.zip
+      CompatibleRuntimes:
+        - python3.7
+    Metadata:
+      BuildMethod: python3.7
+
 

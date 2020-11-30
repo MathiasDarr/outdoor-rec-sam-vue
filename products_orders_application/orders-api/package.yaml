@@ -4,6 +4,9 @@ Description: 'query-ap Sample SAM Template for query-api
 
   '
 Parameters:
+  Region:
+    Type: String
+    Default: us-west-2
   DynamoEndpoint:
     Type: String
     Default: cloud
@@ -28,13 +31,21 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CustomersOrdersFunction
-      CodeUri: s3://dakobed-serverless-apis/7ae339778d366d4f8f1c11a4788b4708
+      CodeUri: s3://dakobed-serverless-apis/02c749ba803eb74c2feb25d92c87ddea
+      Layers:
+      - Ref: AuthorizationLayer
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
         Variables:
           dynamo_endpoint:
             Ref: DynamoEndpoint
+          userpool_id:
+            Fn::ImportValue: outdoorec-userpool-stack:UserPool
+          app_client_id:
+            Fn::ImportValue: outdoorec-userpool-stack:UserPoolClient
+          region:
+            Ref: Region
       Policies:
       - DynamoDBReadPolicy:
           TableName: Orders
@@ -46,3 +57,11 @@ Resources:
               Ref: OrdersAPI
             Path: /orders/{customerID}
             Method: get
+  AuthorizationLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: s3://dakobed-serverless-apis/13f256f4d682f932214dcea804f214bc
+      CompatibleRuntimes:
+      - python3.7
+    Metadata:
+      BuildMethod: python3.7
