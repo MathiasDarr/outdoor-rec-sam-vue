@@ -47,7 +47,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/6ef9ef7d216ea1e320dae2da1fffde30
+      CodeUri: s3://dakobed-serverless-apis/4bd942df6bc1475defea60365630227b
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:

@@ -4,9 +4,20 @@ info:
   version: "1.0.0"
   title: "Dakobed Outdoor Recreation Equipment Service"
 
+securityDefinitions:
+  cognitoUserPool:
+    type: oauth2,
+    name: "Authorization"
+    in: header
+    x-amazon-apigateway-authtype: cognito_user_pools
+    x-amazon-apigateway-authorizer:
+      type: cognito_user_pools
+      providerARNs:
+        - arn:aws:cognito-idp:us-west-2:710339184759:userpool/us-west-2_Ekgyre2tA
+
 basePath: "/v1"
 schemes:
-- "https"
+  - "https"
 paths:
   /orders/{customerID}:
     options:
