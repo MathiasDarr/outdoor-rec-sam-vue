@@ -10,6 +10,8 @@ import ShoppingCart from './components/ecommerce/ShoppingCart'
 
 import ProductList from './components/ecommerce/ProductList'
 
+import Profile from './components/profile/Profile'
+
 Vue.use(Router)
 
 export default new Router({
@@ -47,7 +49,14 @@ export default new Router({
       path:"/products/:category",
       component: ProductList,
       props: true
+    },
+
+    {
+      name: "profile",
+      path:"/profile",
+      component: Profile
     }
+
 
 
     // {

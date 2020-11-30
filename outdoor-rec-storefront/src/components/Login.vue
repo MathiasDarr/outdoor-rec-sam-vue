@@ -72,7 +72,6 @@ export default {
                 var id_token = result.idToken.jwtToken
                 var access_token = result.accessToken.jwtToken
                 var refreshToken = result.accessToken.refreshToken
-                
                 var tokens = {access:access_token, id:id_token, refresh: refreshToken}
                 this.setJWT(tokens)
                 this.$router.push({name:'storefront'})

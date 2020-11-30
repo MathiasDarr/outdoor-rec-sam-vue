@@ -52,8 +52,8 @@ export default {
         menuItems:[
           {title:'Shop', route:'/' }, 
           {title: 'Shopping Cart', route: 'cart'},
-          {title:'Login', route:'/login/' }
-
+          {title:'Login', route:'/login/' },
+          {title:'My Account', route:'/profile/' }
 
         ],
 
