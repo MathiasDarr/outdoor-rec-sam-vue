@@ -15,13 +15,20 @@ Resources:
   OrdersAPI:
     Type: AWS::Serverless::Api
     Properties:
+      Name: OrdersAPI
       StageName: Prod
       Cors: '''*'''
+      Auth:
+        DefaultAuthorizer: MyCognitoAuthorizer
+        Authorizers:
+          MyCognitoAuthorizer:
+            UserPoolArn:
+              Fn::ImportValue: outdoorec-userpool-stack:UserPoolARN
   CustomersOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CustomersOrdersFunction
-      CodeUri: s3://dakobed-serverless-apis/056b275824a949eceb07454bcf4e045e
+      CodeUri: s3://dakobed-serverless-apis/7ae339778d366d4f8f1c11a4788b4708
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
