@@ -33,7 +33,7 @@
                 <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
 
-            <v-list-item-content>
+            <v-list-item-content @click="navigate(item.route)">
                 <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
             </v-list-item>
@@ -50,6 +50,8 @@
 
 // import BaseNavBar from '../BaseNavBar'
 import { mapGetters, mapActions } from "vuex";
+import router from '../../router'
+
 
 
 export default {
@@ -66,6 +68,13 @@ export default {
 
     methods:{
         ...mapActions(["fetchProducts"]),
+
+        navigate(item_route_name){
+            router.push({ name: item_route_name})
+            // if(route != this.$route.path){
+            //     router.push({ name: 'transcription_detail', params: { fileID: fileID } })
+            // }
+        }
     },
     computed: {
         ...mapGetters(["getProducts"]),
@@ -74,11 +83,13 @@ export default {
 
     },
 
+
+
     data () {
       return {
         items: [
-          { title: 'Profile', icon: 'mdi-view-dashboard' },
-          { title: 'Orders', icon: 'mdi-image' }
+          { title: 'Profile', icon: 'mdi-view-dashboard', route:'profile' },
+          { title: 'Orders', icon: 'mdi-image', route: 'orders' }
         ],
         right: null,
 

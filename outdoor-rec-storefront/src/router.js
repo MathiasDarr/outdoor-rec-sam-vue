@@ -12,6 +12,9 @@ import ProductList from './components/ecommerce/ProductList'
 
 import Profile from './components/profile/Profile'
 
+import Orders from './components/profile/Orders'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -55,6 +58,13 @@ export default new Router({
       name: "profile",
       path:"/profile",
       component: Profile
+    },
+
+    {
+      name:"orders",
+      path: "/orders",
+      component: Orders
+
     }
 
 
