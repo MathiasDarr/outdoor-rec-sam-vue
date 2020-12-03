@@ -16,24 +16,8 @@ const getters = {
 
 const actions = {
 
-  async fetchCategories({commit}){
-    var url = window.__runtime_configuration.apiEndpoint + '/categories'
-    axios.get(url).then((response) => {
-      
-      var response_categories = response.data.categories
-      var categories = []
-      // response_categories.forEach(function (category) {
-      //   categories.push(category)
-      // });
-      response_categories.forEach((category) => {
-        categories.push(category.subcategory)
-      });
-
+  async setCategories({commit}, categories){
       commit('setCategories', categories)
-    
-    }, (error) => {
-      console.log(error);
-    });
   },
 
 

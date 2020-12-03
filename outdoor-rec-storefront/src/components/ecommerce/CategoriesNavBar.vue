@@ -18,7 +18,7 @@
 
       <v-list dense nav >
         <v-list-item
-          v-for="category in categories"
+          v-for="category in getCategories"
           :key="category"
           link
         >
@@ -27,7 +27,7 @@
           </v-list-item-icon> -->
 
           <v-list-item-content @click="navigate(category)" >
-            <v-list-item-title>{{ category}}</v-list-item-title>
+            <v-list-item-title>{{ category.category}}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -65,29 +65,19 @@ import axios from 'axios';
 export default {
 
     methods:{
-        ...mapActions(["fetchCategories"]),
+        ...mapActions(["setCategories"]),
         
         async fetch_categories(){
             try{
-                // var url = window.__runtime_configuration.apiEndpoint + '/categories'
-                var url ='https://laux5dx8k0.execute-api.us-west-2.amazonaws.com/Prod/products'
-                const response = await axios.get(url)
-                console.log(response)                
-                // var response_categories = JSON.parse(response.data.body)
-                console.log(response_categories.categories)
-                var categories = []
-                // response_categories.forEach(function (category) {
-                //   categories.push(category)
-                // });
-                // response_categories.forEach((category) => {
-                //     categories.push(category.category)
-                // });
-                // this.categories = categories
+                //var url = window.__runtime_configuration.apiEndpoint + '/categories'
+                var url ='https://laux5dx8k0.execute-api.us-west-2.amazonaws.com/Prod/categories'
+                const response = await axios.get(url)            
+                var response_categories = JSON.parse(response.data.body)
+                this.setCategories(response_categories.categories)
             }catch(err){
                 console.log(err)
             }
         },
-
 
         async await_categories(){
             await this.fetchCategories()
@@ -95,7 +85,7 @@ export default {
         },
         
         navigate(category){
-            router.push({ name: 'products', params: { category: category } })
+            router.push({ name: 'products', params: { category: category.category } })
             // if(route != this.$route.path){
             //     router.push({ name: 'transcription_detail', params: { fileID: fileID } })
             // }

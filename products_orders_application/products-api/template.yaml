@@ -32,7 +32,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       FunctionName: GetCategoriesFunction
-      CodeUri: get_categories/
+      CodeUri: handlers/get_categories/
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -54,7 +54,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       FunctionName: VendorQueryFunction
-      CodeUri: query_vendor/
+      CodeUri: handlers/query_vendor/
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -76,7 +76,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       FunctionName: CategoryQueryFunction
-      CodeUri: query_category/
+      CodeUri: handlers/query_category/
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -97,7 +97,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       FunctionName: VendorCategoryQueryFunction
-      CodeUri: query_category_vendor/
+      CodeUri: handlers/query_category_vendor/
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -119,7 +119,7 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       FunctionName: ProductsScanFunction
-      CodeUri: scan_products/
+      CodeUri: handlers/scan_products/
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
@@ -132,6 +132,26 @@ Resources:
             RestApiId: !Ref ProductsQueryApi
             Path: /products
             Method: get
+
+  ProductDetailFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      FunctionName: ProductDetailFunction
+      CodeUri: handlers/product_detail/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: Products
+      Events:
+        ProductsQuery:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref ProductsQueryApi
+            Path: /products/{vendor}/{productName}
+            Method: get
+
+
 
 #Outputs:
 #  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

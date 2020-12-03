@@ -68,6 +68,24 @@ export default {
   },
   methods:{
     ...mapActions(["addDeleteItem"]),
+    async fetch_categories(){
+        try{
+              //var url = window.__runtime_configuration.apiEndpoint + '/categories'
+              var url ='https://laux5dx8k0.execute-api.us-west-2.amazonaws.com/Prod/categories'
+              const response = await axios.get(url)            
+              var response_categories = JSON.parse(response.data.body)
+              this.setCategories(response_categories.categories)
+          }catch(err){
+        console.log(err)
+      }
+    },
+
+    async await_categories(){
+            await this.fetchCategories()
+      this.categories = this.getCategories
+    },
+
+
     addToCart(){
       this.addDeleteItem(this.id, this.quantity)
     },

@@ -1,23 +1,34 @@
 <template>
   <v-container>
-      {{ getOrders.length }}
+    <v-layout>
+      <v-flex md3>
+        <!-- <BaseNavBar v-bind:categories=cate /> -->
+         
+      </v-flex>
+      <v-flex offset-6 md3>
+            
+            <v-card flat class="pa-3" v-for="order in getOrders" :key="order.orderID" >
+                <v-container dark>
+                    <v-layout row>
+                    <v-flex xs7 sm8 md9>
+                        <v-card-title>
+                            {{order.order_status}}
+                            <div>
+                                <h4 class = "mb-0 text-right" > {{order.status}} </h4>
+                            </div>
+                        </v-card-title>
+                    </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-card> 
+
+      </v-flex>
+
+    </v-layout>
 
 
-    <v-card flat class="pa-3" v-for="order in getOrders" :key="order.orderID" >
-          <v-container dark>
-            <v-layout row>
-              <v-flex xs7 sm8 md9>
-                <v-card-title>
-                    {{order.order_status}}
-                    <div>
-                        <h4 class = "mb-0 text-left" > {{order.status}} </h4>
-                    </div>
-                </v-card-title>
-              </v-flex>
 
-            </v-layout>
-        </v-container>
-    </v-card> 
+
   </v-container>
 </template>
 
@@ -44,7 +55,6 @@ export default {
                         Authorization: this.getIdToken
                     }
                 })
-                
                 var orders_response = JSON.parse(response.data.body)
                 
                 this.setOrders(orders_response.orders)
