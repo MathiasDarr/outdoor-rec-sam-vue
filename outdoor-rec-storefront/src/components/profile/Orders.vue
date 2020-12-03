@@ -28,7 +28,7 @@ export default {
     methods:{
         async fetch_orders(){
             try{
-                var api_endpoint = 'https://m80uwr2znb.execute-api.us-west-2.amazonaws.com/Prod'
+                var api_endpoint = 'https://9lw0iaam5l.execute-api.us-west-2.amazonaws.com/Prod'
                 console.log(api_endpoint)
                 var url = api_endpoint + '/orders/' + this.getEmail
                 const response = await axios.get(url, {

@@ -28,7 +28,14 @@ export default {
         async fetch_products(category){
             try{
                 var url = window.__runtime_configuration.apiEndpoint + '/products/category/' + category 
-                const response = await axios.get(url)
+                const response = await axios.get(url,this.getEmail, {
+                    headers:{
+                        "":
+                    }
+                })
+                
+                
+                
                 var products = response.data.products
                 console.log(products)
                 this.products = products
@@ -38,7 +45,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(["getProducts"]),
+        ...mapGetters(["getProducts", "getEmail"]),
     },
     created(){
 

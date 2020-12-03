@@ -19,14 +19,8 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: OrdersAPI
-      DefinitionUri: s3://dakobed-serverless-apis/69ed48ae9bd4b6d18f67abc681cae8d3
+      DefinitionUri: s3://dakobed-serverless-apis/b34dcd7256fcae8f800b46d00ca262e1
       StageName: Prod
-      Auth:
-        DefaultAuthorizer: MyCognitoAuthorizer
-        Authorizers:
-          MyCognitoAuthorizer:
-            UserPoolArn:
-              Fn::ImportValue: outdoorec-userpool-stack:UserPoolARN
   CustomersOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -60,7 +54,7 @@ Resources:
   AuthorizationLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: s3://dakobed-serverless-apis/13f256f4d682f932214dcea804f214bc
+      ContentUri: s3://dakobed-serverless-apis/3ff94234273672c11784c3fa6f8cc03f
       CompatibleRuntimes:
       - python3.7
     Metadata:
