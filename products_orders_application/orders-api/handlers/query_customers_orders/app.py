@@ -114,7 +114,7 @@ def lambda_handler(event, context):
     else:
         orders = query_orders_by_customer(customerID)
         response = {"statusCode": 200, "body": json.dumps({
-            "categories": orders
+            "orders": orders
         }), 'headers': {"Access-Control-Allow-Origin": "*"}}
 
         return response

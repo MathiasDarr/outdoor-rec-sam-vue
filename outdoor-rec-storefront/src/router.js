@@ -12,7 +12,7 @@ import ProductList from './components/ecommerce/ProductList'
 
 import Profile from './components/profile/Profile'
 
-import Orders from './components/profile/Orders'
+import OrdersList from './components/orders/OrdersList'
 
 
 Vue.use(Router)
@@ -63,62 +63,10 @@ export default new Router({
     {
       name:"orders",
       path: "/orders",
-      component: Orders
+      component: OrdersList
 
     }
 
-
-
-    // {
-    //   path: '/landing',
-    //   component: Landing
-    // },
-
-    // {
-    //   name: 'transcription',
-    //   path: '/transcription/:id',
-    //   component: Transcription
-
-    // },
-
-    // {
-    //   path: '/transcriptions',
-    //   component: TranscriptionList
-    // },
-
-    // {
-    //   name:'transcription_detail',
-    //   path: '/transcription_detail/:fileID/:title',
-    //   component: TranscriptionDetail
-    // },
-
-    // {
-    //   path: '/maestro',
-    //   component: MaestroTranscriptions
-    // },
-
-
-    
-    // {
-    //   path:'/transcriber',
-    //   component: Transcriber
-    // },
-    
-    // {
-    //   path:'/musiclanding',
-    //   component: MusicProjectIntro
-    // },
-
-    // {
-    //   path: '/transcriptions',
-    //   component: TranscriptionList
-
-    // },
-
-    // {
-    //   path:'/guitarset',
-    //   component: GuitarSet
-    // },
 
   ]
 })
