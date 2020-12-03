@@ -17,13 +17,16 @@ export default {
         async fetch_categories(){
             try{
                 //var url = window.__runtime_configuration.apiEndpoint + '/categories'
-                var url ='https://9lw0iaam5l.execute-api.us-west-2.amazonaws.com/Prod/orders'
+                var url ='hhttps://9lw0iaam5l.execute-api.us-west-2.amazonaws.com/Prod/orders/dakobedbard@gmail.com'
                 var body ={
-                    
+                    quantities:[1],
+                    vendors: [ "Arc'teryx"],
+                    products: ['Aerios FL Mid GTX Hiking Boots']
                 }
-                const response = await axios.post(url)            
-                var response_categories = JSON.parse(response.data.body)
-                this.setCategories(response_categories.categories)
+                const response = await axios.post(url, body)            
+                console.log(response)
+                // var response_categories = JSON.parse(response.data.body)
+                // this.setCategories(response_categories.categories)
             }catch(err){
                 console.log(err)
             }
@@ -37,7 +40,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["getCategories"]),
+        ...mapGetters(["getIdToken","getEmail","getIdToken"]),
     },
 
     created(){

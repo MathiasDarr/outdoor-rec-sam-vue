@@ -131,7 +131,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ProductDetailFunction
-      CodeUri: s3://dakobed-serverless-apis/1420afb52bd35e42a86b7fc65a006173
+      CodeUri: s3://dakobed-serverless-apis/a649d6ac38517e26dc1cdb8386706743
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:

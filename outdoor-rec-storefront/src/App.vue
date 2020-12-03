@@ -51,7 +51,7 @@ export default {
         drawer: false,
         menuItems:[
           {title:'Shop', route:'/' }, 
-          {title: 'Shopping Cart', route: 'cart'},
+          {title: 'Shopping Cart', route: '/cart'},
           {title:'Login', route:'/login/' },
           {title:'My Account', route:'/profile/' }
 

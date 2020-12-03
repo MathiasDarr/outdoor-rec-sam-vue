@@ -7,6 +7,7 @@ dynamoDB table.
 
 import boto3
 import csv
+from boto.dynamodb.types import Decimal
 import os
 from time import sleep
 
@@ -19,6 +20,7 @@ def insert_order(order):
             'vendors': order['vendors'],
             'products': order['products'],
             'order_status': order['order_status'],
+            'quantities': order['quantities'],
             'total_price': order['total_price']
         }
     )

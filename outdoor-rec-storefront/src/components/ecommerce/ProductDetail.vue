@@ -10,9 +10,16 @@
           <v-card-text> <h1>{{ vendor }} </h1> </v-card-text>
           <v-card-text> <h3>{{ productName }} </h3> </v-card-text>
 
+          <div v-if="imageURL === ''">
+              fdf 
+          </div>
+          <div v-else>
+            {{imageURL}}
+              <v-img :src="imageURL"  @click="productClick()"></v-img>    
+          </div>
+          
+          
 
-          <v-img :src="imageURL"  @click="productClick()"></v-img>    
-  
           <v-card-text>
             <h3> $ {{ price }} </h3>
           </v-card-text>
@@ -43,25 +50,46 @@ export default {
     created(){
         this.vendor = this.$route.params.vendor
         this.productName = this.$route.params.productName
-        // console.log(this.productName)
-        console.log(this.imageURL)
-// console.log('The id is: ' + this.$route.params.id);
+       
+  
+        this.await_product_detail()
+
+        // console.log('The id is: ' + this.$route.params.id);
         // this.addDeleteItem({id:this.id,quantity: 1})
     },
 
     data () {
      return {
-       
-       productName: "Atmos 65",
-       price:"180.00",
-       id: this.$route.params.id,
        quantity:1,
-       
+       price: 1.1,
+       imageURL: ''
      }
   },
   methods:{
     ...mapActions(["addDeleteItem"]),
+    addToCart(){
+      var product = { productName: this.productName, vendor:this.vendor, quantity:this.quantity}
+      this.addDeleteItem(this.id, this.quantity)
+    },
+    
+    async await_product_detail(){
+        await this.fetch_product_detail()
+    },
+    
+    async fetch_product_detail(){
+            try{
+                var url = 'https://qxt70tdiql.execute-api.us-west-2.amazonaws.com/Prod/products/detail/' + this.vendor + '/' + this.productName 
+                const response = await axios.get(url)
+                var response_body = JSON.parse(response.data.body)
+                console.log(response_body)
 
+                var product = response_body.product
+                this.imageURL = product.image_url
+                
+            }catch(err){
+                console.log(err)
+            }
+      },
   }
 
 

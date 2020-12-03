@@ -4,6 +4,7 @@ import auth from './modules/auth'
 import upload from './modules/upload'
 import ecom from './modules/ecom'
 import orders from './modules/orders'
+import cart from './modules/cart'
 
 
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     auth,
     upload,
     ecom,
-    orders
+    orders,
+    cart
   }
 });

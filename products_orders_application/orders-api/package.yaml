@@ -55,7 +55,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: PostOrderFunction
-      CodeUri: s3://dakobed-serverless-apis/a10935e9aa130f6fbe0fa494bd486d42
+      CodeUri: s3://dakobed-serverless-apis/fc870fe4d9bf690e7e701292926b7fd8
       Layers:
       - Ref: AuthorizationLayer
       Handler: app.lambda_handler

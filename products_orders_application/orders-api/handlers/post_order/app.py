@@ -9,6 +9,8 @@ from jose import jwk, jwt
 from jose.utils import base64url_decode
 from datetime import datetime
 import re
+import json
+from boto3.dynamodb.types import Decimal
 
 
 region = os.getenv('region')
@@ -18,7 +20,7 @@ keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.forma
 
 
 with urllib.request.urlopen(keys_url) as f:
-  response = f.read()
+    response = f.read()
 keys = json.loads(response.decode('utf-8'))['keys']
 
 dynamo_endpoint = os.getenv('dynamo_endpoint')
@@ -83,7 +85,8 @@ def insert_order(order):
             'vendors': order['vendors'],
             'products': order['products'],
             'order_status': order['order_status'],
-            'total_price': order['total_price']
+            'total_price': order['total_price'],
+            'quantities': order['quantities']
         }
     )
 
@@ -110,32 +113,30 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
-    # token = event['headers']['Authorization']
-    # customerID = event['pathParameters']['customerID']
-    # is_authenticated = authenticate_identification_token(customerID,token)
-    #
-    # if not is_authenticated:
-    #     return {"statusCode": 403, "body": json.dumps({
-    #         "error": "Token has expired or been issued to different user."
-    #     }), 'headers': {"Access-Control-Allow-Origin": "*"}}
-    # else:
-    #     # orders = query_orders_by_customer(customerID)
+    customerID = event['pathParameters']['customerID']
+    if 'Authorization' not in event['headers'] or not authenticate_identification_token(customerID, event['headers']['Authorization']):
+        return {"statusCode": 403, "body": json.dumps({
+            "error": "Token has expired or been issued to different user."
+        }), 'headers': {"Access-Control-Allow-Origin": "*"}}
 
-    # order = {}
-    # order['vendors'] = event['vendors']
-    # order['products'] = event['products']
-    # order['quantities'] = event['quantities']
-    # order['customerID'] = event['pathParameters']['customerID']
-    # current_date = str(datetime.now())[:-7]
-    # current_date = re.sub(r"[ ,.;@#?!&$:-]+", '', current_date)
-    # order['orderID'] = current_date
-    # order['order_status'] = 'Pending'
-    # order['total_price'] = 138.69
-    #
-    # order_response = insert_order(order)
+    order = {}
+    body = json.loads(event['body'])
+    order['vendors'] = body['vendors']
+    order['products'] = body['products']
+    order['quantities'] = body['quantities']
+    order['customerID'] = event['pathParameters']['customerID']
+
+    current_date = str(datetime.now())[:-7]
+    current_date = re.sub(r"[ ,.;@#?!&$:-]+", '', current_date)
+    order['orderID'] = current_date
+
+    order['order_status'] = 'Pending'
+
+    order['total_price'] = Decimal('138.69')
+
+    order_response = insert_order(order)
 
     response = {"statusCode": 200, "body": json.dumps({
-        "orders": event
+        "type": order_response
     }), 'headers': {"Access-Control-Allow-Origin": "*"}}
-
     return response

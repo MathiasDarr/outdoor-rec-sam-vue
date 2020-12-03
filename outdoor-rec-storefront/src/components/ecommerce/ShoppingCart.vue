@@ -19,20 +19,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import BaseNavBar from '../BaseNavBar'
 
-      // <v-flex md6 offset-3>
-      //   <v-card>
-      //     {{products }}
-      //   </v-card>
-
-      //   <v-card class="mx-auto" max-width="800" tile flat>
-            
-      //       <v-subheader><h2>Shopping Cart</h2></v-subheader>
-      //           <v-card flat class="pa-3" v-for="product in products" :key="product.id" >
-      //               {{product.id}}
-      //           </v-card>
-      //   </v-card>
 
 
       // </v-flex>
@@ -40,7 +27,7 @@ import BaseNavBar from '../BaseNavBar'
 export default {
 
   components:{
-    BaseNavBar
+
   },
 
 

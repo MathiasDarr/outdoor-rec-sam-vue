@@ -26,13 +26,16 @@ def get_product_detail(vendor, product_name):
             'productName': {'S': product_name}
         }
     )
-    return response['Item']
+    item = response['Item']
+    keys = list(item.keys())
+    product = {key: list(item[key].values())[0] for key in keys}
+
+    return product
 
 
-product_name = 'Heeled Boots'
-vendor ="Blundstone"
-get_product_detail(vendor, product_name)
-
+# product_name = 'Heeled Boots'
+# vendor ="Blundstone"
+# response = get_product_detail(vendor, product_name)
 
 
 def lambda_handler(event, context):
