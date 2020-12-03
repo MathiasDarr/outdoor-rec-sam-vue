@@ -1,16 +1,18 @@
 <template>
+<div>
   <v-container>
     <v-layout>
-      <v-flex md3>
-        <!-- <BaseNavBar v-bind:categories=cate /> -->
-            hello
-      </v-flex>
-      
-      <v-flex md9>
-        
-        <v-flex xs7 sm8 md9>
+      <v-flex>
+        <v-card flat class="pa-3" v-for="report in allReports" :key="report.id" >
+          <v-container dark>
+            <v-layout row>
+              <v-flex xs5 sm4 md3>
+                <v-img class="white--text align-end" height="200px" v-bind:src="report.imageURL">
+                </v-img>                
+              </v-flex>
+              
+              <v-flex xs7 sm8 md9>
                 <v-card-title>
-                    dfdf
                     <div>
                         <h4 class = "white00text mb-0 text-left" > {{report.name}}
                         <div class="text-left grey--text "> {{ report.region }}</div> </h4>
@@ -27,26 +29,40 @@
                         </div>
                     </div>
                 </v-card-title>
-        </v-flex>
-      </v-flex>
+              </v-flex>
 
+            </v-layout>
+          </v-container>
+        </v-card> 
+      </v-flex>
     </v-layout>
+
+    <v-btn @click="onPostReport()">Post Trip Report</v-btn>
   </v-container>
+
+  
+  </div>
 </template>
 
 <script>
-/* eslint-disable */
 
 import { mapGetters, mapActions } from "vuex";
-import axios from 'axios';
-
 
 export default {
-    components:{
-
+    created(){
+        this.await_orders()();
     },
-
+    
+    data(){
+        return {
+            reportID:-1,
+            reports: []
+        }
+    },
     methods:{
+        ...mapActions(["setOrders"]),
+
+
         async fetch_orders(){
             try{
                 var api_endpoint = 'https://9lw0iaam5l.execute-api.us-west-2.amazonaws.com/Prod'
@@ -67,30 +83,14 @@ export default {
             }
         },
 
-
         async await_orders(){
             await this.fetch_orders()
-            // this.orders = this.getCategories
+            
         },
     },
-    
+
     computed: {
-        ...mapGetters(["getEmail", "getIdToken"]),
-    },
-    created(){
-        this.await_orders()
-      // this.fetchCategories()
-      // this.categories = this.getCategories
-// this.fetchProducts();
-    },
-
-    data(){
-
-        return {
-            orders: []
-        }
+    ...mapGetters(["allOrders"]),
     }
 }
-
-
 </script>

@@ -1,3 +1,10 @@
+"""
+This script reads the orders csv file & populates the orders table.
+dynamoDB table.
+"""
+# !/usr/bin/env python3
+
+
 import boto3
 import csv
 import os
@@ -61,7 +68,7 @@ if __name__ == '__main__':
     #sleep(5)
     table = dynamodb.Table('Orders')
 
-    with open('orders.csv', newline='') as csvfile:
+    with open('data/orders.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             insert_order(row)

@@ -123,10 +123,10 @@ if __name__ == '__main__':
     sleep(5)
     table = dynamodb.Table('Products')
 
-    CSV_DIRECTORY = 'products'
+    CSV_DIRECTORY = 'data/products'
     csv_files = []
     for file in os.listdir(CSV_DIRECTORY):
-        file_path = 'products/{}'.format(file)
+        file_path = 'data/products/{}'.format(file)
         if file_path.split('.')[-1] == 'csv':
             csv_files.append(file_path)
 
