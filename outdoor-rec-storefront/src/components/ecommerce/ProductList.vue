@@ -5,11 +5,18 @@
         <!-- <BaseNavBar v-bind:categories=cate /> -->
         <CategoriesNavBar /> 
       </v-flex>
+      
+      
+      
       <v-flex md9>
-        {{ products }}
-          <!-- <v-card flat>
-            <ProductList />
-          </v-card> -->
+      {{this.products_page.length}}
+      <v-pagination
+        v-model="page"
+        :length="npages"
+        @input="onPageChange"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+      ></v-pagination>
       </v-flex>
 
     </v-layout>
@@ -83,6 +90,21 @@ export default {
     methods:{
         ...mapActions(["setCategoryProducts"]),
 
+        onPageChange(){
+          this.set_page()
+        },
+
+        set_page(){
+          var end = (this.page)*30
+          var start = (this.page-1)*30
+          if(end > this.products.length){
+            this.products_page = this.products.slice(start, this.products.length)
+          }else{
+            this.products_page = this.products.slice(start,end)
+          }
+        },
+
+
         async fetch_products(){
             try{
                 var url = 'https://qxt70tdiql.execute-api.us-west-2.amazonaws.com/Prod' + '/products/category/' + this.category 
@@ -92,6 +114,11 @@ export default {
                 this.setCategoryProducts(category_products)
                 this.products = this.getProductsCategoryMap[this.category]
 
+                this.nproducts = this.products.length
+                this.page = 1
+                this.set_page()
+                this.npages =  Math.ceil(this.nproducts/30)
+                
             }catch(err){
                 console.log(err)
             }
@@ -99,7 +126,11 @@ export default {
     },
     computed: {
         ...mapGetters(["getProductsCategoryMap"]),
+        getPage(n){
+          
+        }
     },
+    
     created(){
       
 
@@ -116,7 +147,10 @@ export default {
 
     data () {
       return {
-        products : []
+        products : [],
+        page:0,
+        npages:0,
+        products_page:[]
 
       }
     },
