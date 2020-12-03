@@ -70,7 +70,7 @@ export default {
         async fetch_categories(){
             try{
                 //var url = window.__runtime_configuration.apiEndpoint + '/categories'
-                var url ='https://h6wnmyhxf3.execute-api.us-west-2.amazonaws.com/Prod/categories'
+                var url ='https://qxt70tdiql.execute-api.us-west-2.amazonaws.com/Prod/categories'
                 const response = await axios.get(url)            
                 var response_categories = JSON.parse(response.data.body)
                 this.setCategories(response_categories.categories)

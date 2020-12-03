@@ -6,7 +6,7 @@
         <CategoriesNavBar /> 
       </v-flex>
       <v-flex md9>
-        {{ category }}
+        {{ products }}
           <!-- <v-card flat>
             <ProductList />
           </v-card> -->
@@ -81,27 +81,34 @@ export default {
     },
 
     methods:{
-        ...mapActions(["fetchProducts"]),
+        ...mapActions(["setCategoryProducts"]),
 
-        async fetch_products(category){
+        async fetch_products(){
             try{
-                var url = 'https://qxt70tdiql.execute-api.us-west-2.amazonaws.com/Prod' + '/products/category/' + category 
+                var url = 'https://qxt70tdiql.execute-api.us-west-2.amazonaws.com/Prod' + '/products/category/' + this.category 
                 const response = await axios.get(url)
-                var products = response.data.products
-                console.log(products)
-                this.products = products
+                var products_body = JSON.parse(response.data.body)
+                var category_products = {category:this.category, products:products_body.products}
+                this.setCategoryProducts(category_products)
+                this.products = this.getProductsCategoryMap[this.category]
+
             }catch(err){
                 console.log(err)
             }
         },
     },
     computed: {
-        ...mapGetters(["getProducts"]),
+        ...mapGetters(["getProductsCategoryMap"]),
     },
     created(){
+      
+
       this.category = this.$route.params.category
       console.log(this.category)
-      this.fetch_products(this.category)
+      this.fetch_products()
+      
+
+
       // this.fetch_products('mens-boots')
       //   console.log("DFDFDF")
       // this.fetchProducts();
