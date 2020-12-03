@@ -5,9 +5,10 @@
         <v-flex md6>
           <v-card tile flat @click="productClick()">
             <v-card-text @click="productClick()">
-                <h2><router-link tag="span" :to="'/tabs'">{{productName}}</router-link></h2>
+              <h1 style="font-weight:bold; color:black">{{ productVendor }} </h1>
+                <h2><router-link tag="span" :to="'/tabs'"> {{productName}}</router-link></h2>
             </v-card-text>
-            <v-img :src="imageURL" height="200px" width="120" @click="productClick()"></v-img>
+            <v-img :src="imageURL"  @click="productClick()"></v-img>
           </v-card>
         </v-flex>
         <v-flex md6>
@@ -29,7 +30,8 @@ export default {
         productID:String,
         imageURL:String,
         productName: String,
-        productPrice: Number
+        productPrice: Number,
+        productVendor: String
     },
     methods:{
         productClick(){
