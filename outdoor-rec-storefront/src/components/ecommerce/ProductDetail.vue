@@ -2,14 +2,16 @@
   <v-container>
     <v-layout row>
       <v-flex md2>
-        <BaseNavBar v-bind:items=items />
+        <CategoriesNavBar /> 
       </v-flex>
       <v-flex md10>
         <v-card flat>
           <v-card tile flat >
-          
-          <v-card-text> <h1>{{ productName }} </h1> </v-card-text>
-          
+          <v-card-text> <h1>{{ vendor }} </h1> </v-card-text>
+          <v-card-text> <h3>{{ productName }} </h3> </v-card-text>
+
+
+          <v-img :src="imageURL"  @click="productClick()"></v-img>    
   
           <v-card-text>
             <h3> $ {{ price }} </h3>
@@ -24,30 +26,27 @@
   </v-container>
 </template>
 
-
 <script>
+/* eslint-disable */
+import axios from 'axios';
 
-
-
-      // <v-flex md10>
-
-
-
-
-      // </v-flex>
-
-import BaseNavBar from '../BaseNavBar'
-
+import CategoriesNavBar from './CategoriesNavBar'
 import { mapActions } from "vuex";
 import router from '../../router'
+
+
 export default {
     components:{
-      BaseNavBar
+      CategoriesNavBar
     },
+
     created(){
-        this.id = this.$route.params.id
-        console.log('The id is: ' + this.$route.params.id);
-        this.addDeleteItem({id:this.id,quantity: 1})
+        this.vendor = this.$route.params.vendor
+        this.productName = this.$route.params.productName
+        // console.log(this.productName)
+        console.log(this.imageURL)
+// console.log('The id is: ' + this.$route.params.id);
+        // this.addDeleteItem({id:this.id,quantity: 1})
     },
 
     data () {
@@ -58,41 +57,11 @@ export default {
        id: this.$route.params.id,
        quantity:1,
        
-       items: [
-          { title: 'Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' }, 
-          { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
-          { title: 'Shopping Cart', icon: 'mdi-image', route:'/cart' },
-        ],
-       
      }
   },
   methods:{
     ...mapActions(["addDeleteItem"]),
-    async fetch_categories(){
-        try{
-              //var url = window.__runtime_configuration.apiEndpoint + '/categories'
-              var url ='https://laux5dx8k0.execute-api.us-west-2.amazonaws.com/Prod/categories'
-              const response = await axios.get(url)            
-              var response_categories = JSON.parse(response.data.body)
-              this.setCategories(response_categories.categories)
-          }catch(err){
-        console.log(err)
-      }
-    },
 
-    async await_categories(){
-            await this.fetchCategories()
-      this.categories = this.getCategories
-    },
-
-
-    addToCart(){
-      this.addDeleteItem(this.id, this.quantity)
-    },
-    selectRoute(route){ // eslint-disable-line no-unused-vars
-          router.push(route).catch(err => err)
-    }
-    
   }
 
 

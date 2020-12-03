@@ -65,8 +65,8 @@ def create_orders_table():
 if __name__ == '__main__':
     # dynamodb = boto3.resource('dynamodb',endpoint_url="http://localhost:4566")
     dynamodb = boto3.resource('dynamodb') #, endpoint_url="http://localhost:8000")
-    create_orders_table()
-    sleep(20)
+    # create_orders_table()
+    # sleep(20)
     table = dynamodb.Table('Orders')
 
     with open('data/orders.csv', newline='') as csvfile:

@@ -9,6 +9,7 @@ import Store from './components/ecommerce/Store'
 import ShoppingCart from './components/ecommerce/ShoppingCart'
 
 import ProductList from './components/ecommerce/ProductList'
+import ProductDetail from './components/ecommerce/ProductDetail'
 
 import Profile from './components/profile/Profile'
 
@@ -64,8 +65,12 @@ export default new Router({
       name:"orders",
       path: "/orders",
       component: OrdersList
-
-    }
+    },
+    { 
+      path: '/product/:vendor/:productName',
+      component: ProductDetail,
+      props:true 
+    },
 
 
   ]

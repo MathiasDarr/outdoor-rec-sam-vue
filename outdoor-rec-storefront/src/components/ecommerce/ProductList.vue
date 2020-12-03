@@ -9,59 +9,23 @@
       
       
       <v-flex md9>
-    <v-container fluid grid-list-md>
-          <!-- xs = 600px full screen (12) -->
-          <!-- md = 600px or more. half of the screen (6) -->
+        <v-container fluid grid-list-md>
           <v-layout row wrap>
-              <v-flex xs12 md4 v-for="item in products_page" v-bind:key=item.productName >
-                    <ProductCard v-bind:productID="item.id" v-bind:productVendor="item.vendor" v-bind:productName="item.productName" v-bind:imageURL="item.image_url" v-bind:productPrice="item.price"/>
-              </v-flex>
-          </v-layout>
-      </v-container>
-
-      <!-- <template>
-      <v-row>
-        <v-col
-            for="item in products_page"
-            key="item.productName"
-            class="d-flex child-flex"
-            cols="4"
-          >
-          
-
-          <template v-slot:placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                >
-                dfd 
-                <ProductCard v-bind:productID="item.id" v-bind:productName="item.productName" v-bind:imageURL="item.image_url" v-bind:productPrice="item.price"/>
-                </v-row>
-              </template>
- 
-          </v-col>
-        </v-row>
-    </template> -->
-
-      <!-- <v-flex xs2 md3  v-for="item in products_page" v-bind:key=item.id>
-            <ProductCard v-bind:productID="item.id" v-bind:productName="item.productName" 
-            v-bind:imageURL="item.image_url" v-bind:productPrice="item.price"/>
-              <v-card >
-                  <v-img :src="item.imageURL" height="200px" width="100"></v-img>
-                  
-              </v-card> -->
+            <v-flex xs12 md4 v-for="item in products_page" v-bind:key=item.productName >
               
-          <!-- </v-flex> -->
-      
+              <ProductCard v-bind:productID="item.id" v-bind:productVendor="item.vendor" v-bind:productName="item.productName"
+               v-bind:imageURL="item.image_url" v-bind:productPrice="item.price"/>
+            </v-flex>
+          </v-layout>
+        </v-container>
 
-      <v-pagination
-        v-model="page"
-        :length="npages"
-        @input="onPageChange"
-        prev-icon="mdi-menu-left"
-        next-icon="mdi-menu-right"
-      ></v-pagination>
+        <v-pagination
+          v-model="page"
+          :length="npages"
+          @input="onPageChange"
+          prev-icon="mdi-menu-left"
+          next-icon="mdi-menu-right"
+        ></v-pagination>
       </v-flex>
 
     </v-layout>

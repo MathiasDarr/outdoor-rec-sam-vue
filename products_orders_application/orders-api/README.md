@@ -7,3 +7,12 @@ pip install python-jose -t .
 zip -r py-jose.zip python
 
 ## Make request ##
+
+
+Order test case
+
+{
+    "vendors":[ "Arc'teryx"],
+    "products": ["Aerios FL Mid GTX Hiking Boots"],
+    "quantities":1
+}

@@ -35,7 +35,8 @@ export default {
     },
     methods:{
         productClick(){
-            router.push({ path: `/product/${this.productID}` })
+          console.log(this.imageURL)
+          router.push({ path: `/product/${this.productVendor}/${this.productName}`, params: { imageURL: this.imageURL } })
         }
     }
 }
