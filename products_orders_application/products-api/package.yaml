@@ -20,7 +20,7 @@ Resources:
     Properties:
       StageName: Prod
       Name: ProductsAPI
-      DefinitionUri: s3://dakobed-serverless-apis/af28b8d1a3c581a364dbac7af61cdab3
+      DefinitionUri: s3://dakobed-serverless-apis/a8159b89a82dbd73c8448a0802bf85bc
   GetCategoriesFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -131,7 +131,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ProductDetailFunction
-      CodeUri: s3://dakobed-serverless-apis/6ed21f25ff162c9e6931aaaa7c40a621
+      CodeUri: s3://dakobed-serverless-apis/1420afb52bd35e42a86b7fc65a006173
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:

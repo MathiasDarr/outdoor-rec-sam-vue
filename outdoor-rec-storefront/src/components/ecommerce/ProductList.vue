@@ -80,13 +80,12 @@ export default {
 
     },
 
-
     methods:{
         ...mapActions(["fetchProducts"]),
 
         async fetch_products(category){
             try{
-                var url = window.__runtime_configuration.apiEndpoint + '/products/category/' + category 
+                var url = 'https://qxt70tdiql.execute-api.us-west-2.amazonaws.com/Prod' + '/products/category/' + category 
                 const response = await axios.get(url)
                 var products = response.data.products
                 console.log(products)

@@ -25,6 +25,8 @@ paths:
       x-amazon-apigateway-integration:
         type: "mock"
         httpMethod: "POST"
+        requestTemplates:
+          "application/json": "{\"statusCode\": 200}"
         responses:
           default:
             statusCode: 200
@@ -83,6 +85,8 @@ paths:
       x-amazon-apigateway-integration:
         type: "mock"
         httpMethod: "POST"
+        requestTemplates:
+          "application/json": "{\"statusCode\": 200}"
         responses:
           default:
             statusCode: 200
@@ -146,6 +150,8 @@ paths:
       x-amazon-apigateway-integration:
         type: "mock"
         httpMethod: "POST"
+        requestTemplates:
+          "application/json": "{\"statusCode\": 200}"
         responses:
           default:
             statusCode: 200
@@ -211,6 +217,8 @@ paths:
       x-amazon-apigateway-integration:
         type: "mock"
         httpMethod: "POST"
+        requestTemplates:
+          "application/json": "{\"statusCode\": 200}"
         responses:
           default:
             statusCode: 200
@@ -276,6 +284,8 @@ paths:
       x-amazon-apigateway-integration:
         type: "mock"
         httpMethod: "POST"
+        requestTemplates:
+          "application/json": "{\"statusCode\": 200}"
         responses:
           default:
             statusCode: 200
@@ -351,6 +361,8 @@ paths:
       x-amazon-apigateway-integration:
         type: "mock"
         httpMethod: "POST"
+        requestTemplates:
+          "application/json": "{\"statusCode\": 200}"
         responses:
           default:
             statusCode: 200
