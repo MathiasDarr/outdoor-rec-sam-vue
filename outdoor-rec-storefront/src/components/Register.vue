@@ -18,6 +18,12 @@
 </template>
 
 <script>
+/* eslint-disable */
+
+import axios from 'axios';
+
+
+
 export default {
   name: 'Register',
   computed:{
@@ -49,12 +55,26 @@ export default {
       }
   },
   methods: {
+    
+    lambda_authentication(){
+        var url = 'https://3x8ufqv3s5.execute-api.us-west-2.amazonaws.com/Prod/customers/'+this.email
+        var body = {
+          first_name: this.firstname,
+          last_name: this.lastname, 
+        }
+        axios.post(url, body)
+    },
+
+
     authenticate () {
+
         /*eslint no-unused-vars: "off"*/
-        this.$cognitoAuth.signup(this.email,this.firstname, this.lastname, this.password, (err, result) => {
+      
+      this.$cognitoAuth.signup(this.email,this.firstname, this.lastname, this.password, (err, result) => {
             if (err) {
                 this.error = err
             } else {
+                this.lambda_authentication()
                 this.$router.push({path: '/confirm'})
             }
         })

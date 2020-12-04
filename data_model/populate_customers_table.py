@@ -17,6 +17,7 @@ def insert_customer(order):
             'customerID': order['customerID'],
             'first_name': order['first_name'],
             'last_name': order['last_name'],
+            'verified': True,
             'primary_address': order['primary_address'],
         }
     )

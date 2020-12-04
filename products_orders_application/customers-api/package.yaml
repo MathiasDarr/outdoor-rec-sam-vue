@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'query-ap Sample SAM Template for query-api
+
+  '
+Parameters:
+  Region:
+    Type: String
+    Default: us-west-2
+  DynamoEndpoint:
+    Type: String
+    Default: cloud
+    AllowedValues:
+    - http://dynamo-local:8000
+    - cloud
+    Description: http://dynamo-local:8000, cloud
+Resources:
+  CustomersAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: CustomersAPI
+      DefinitionUri: s3://dakobed-serverless-apis/587ea9e18f24a5497f4872dc972449f7
+      StageName: Prod
+  CreateCustomerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CreateCustomerFunction
+      CodeUri: s3://dakobed-serverless-apis/2497f976171449e051aaabb5813b3678
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint:
+            Ref: DynamoEndpoint
+          userpool_id:
+            Fn::ImportValue: outdoorec-userpool-stack:UserPool
+          app_client_id:
+            Fn::ImportValue: outdoorec-userpool-stack:UserPoolClient
+          region:
+            Ref: Region
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: Customers
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: CustomersAPI
+            Path: /customers/create/{customerID}
+            Method: post
+  VerifyCustomerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: VerifyCustomerFunction
+      CodeUri: s3://dakobed-serverless-apis/09aa70b8691260dc3aafe4379234fbee
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Environment:
+        Variables:
+          dynamo_endpoint:
+            Ref: DynamoEndpoint
+          userpool_id:
+            Fn::ImportValue: outdoorec-userpool-stack:UserPool
+          app_client_id:
+            Fn::ImportValue: outdoorec-userpool-stack:UserPoolClient
+          region:
+            Ref: Region
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: Customers
+      Events:
+        VendorQuery:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: CustomersAPI
+            Path: /customers/verify/{customerID}
+            Method: post
