@@ -27,7 +27,7 @@ Resources:
       FunctionName: CustomersOrdersFunction
       CodeUri: s3://dakobed-serverless-apis/fb4bd36bdb1e596b3ba34ea3822ee17d
       Layers:
-      - Ref: AuthorizationLayer
+      - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -57,7 +57,7 @@ Resources:
       FunctionName: PostOrderFunction
       CodeUri: s3://dakobed-serverless-apis/fc870fe4d9bf690e7e701292926b7fd8
       Layers:
-      - Ref: AuthorizationLayer
+      - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -81,11 +81,3 @@ Resources:
               Ref: OrdersAPI
             Path: /orders/{customerID}
             Method: post
-  AuthorizationLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      ContentUri: s3://dakobed-serverless-apis/3ff94234273672c11784c3fa6f8cc03f
-      CompatibleRuntimes:
-      - python3.7
-    Metadata:
-      BuildMethod: python3.7

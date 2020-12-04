@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  query-ap
+  Sample SAM Template for query-api
+
+Parameters:
+  Region:
+    Type: String
+    Default: us-west-2
+
+  DynamoEndpoint:
+    Type: String
+    Default: cloud
+    AllowedValues:
+      - http://dynamo-local:8000
+      - cloud
+    Description: http://dynamo-local:8000, cloud
+
+Resources:
+#  OrdersAPI:
+#    Type: AWS::Serverless::Api
+#    Properties:
+#      Name: OrdersAPI
+#      DefinitionUri: ./swagger.yaml
+#      StageName: Prod
+##      Auth:
+##        DefaultAuthorizer: MyCognitoAuthorizer
+##        Authorizers:
+##          MyCognitoAuthorizer:
+##            UserPoolArn: !ImportValue outdoorec-userpool-stack:UserPoolARN
+#
+#  CustomersOrdersFunction:
+#    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+#    Properties:
+#      FunctionName: CustomersOrdersFunction
+#      CodeUri: handlers/query_customers_orders/
+#      Layers:
+#        - !Ref AuthorizationLayer
+#
+#      Handler: app.lambda_handler
+#      Runtime: python3.7
+#      Environment:
+#        Variables:
+#          dynamo_endpoint: !Ref DynamoEndpoint
+#          userpool_id: !ImportValue outdoorec-userpool-stack:UserPool
+#          app_client_id: !ImportValue outdoorec-userpool-stack:UserPoolClient
+#          region: !Ref Region
+#
+#      Policies:
+#        - DynamoDBReadPolicy:
+#            TableName: Orders
+#      Events:
+#        VendorQuery:
+#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+#          Properties:
+#            RestApiId: !Ref OrdersAPI
+#            Path: /orders/{customerID}
+#            Method: get
+#
+#
+#  PostOrderFunction:
+#    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+#    Properties:
+#      FunctionName: PostOrderFunction
+#      CodeUri: handlers/post_order/
+#      Layers:
+#        - !Ref AuthorizationLayer
+#      Handler: app.lambda_handler
+#      Runtime: python3.7
+#      Environment:
+#        Variables:
+#          dynamo_endpoint: !Ref DynamoEndpoint
+#          userpool_id: !ImportValue outdoorec-userpool-stack:UserPool
+#          app_client_id: !ImportValue outdoorec-userpool-stack:UserPoolClient
+#          region: !Ref Region
+#
+#      Policies:
+#        - DynamoDBCrudPolicy:
+#            TableName: Orders
+#      Events:
+#        VendorQuery:
+#          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+#          Properties:
+#            RestApiId: !Ref OrdersAPI
+#            Path: /orders/{customerID}
+#            Method: post
+#
+
+
+  AuthorizationLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: AuthorizationLayer
+      ContentUri: py-jose.zip
+      CompatibleRuntimes:
+        - python3.7
+    Metadata:
+      BuildMethod: python3.7
+
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  AuthorizationLayer:
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'AuthorizationLayer' ] ]
+    Value: !Ref AuthorizationLayer

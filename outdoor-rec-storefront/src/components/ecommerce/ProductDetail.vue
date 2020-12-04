@@ -11,11 +11,10 @@
           <v-card-text> <h3>{{ productName }} </h3> </v-card-text>
 
           <div v-if="imageURL === ''">
-              fdf 
+
           </div>
           <div v-else>
-            {{imageURL}}
-              <v-img :src="imageURL"  @click="productClick()"></v-img>    
+              <v-img :src="imageURL"  @click="productClick()" height="300" width="500"></v-img>    
           </div>
           
           
@@ -85,7 +84,7 @@ export default {
 
                 var product = response_body.product
                 this.imageURL = product.image_url
-                
+                this.price = product.price
             }catch(err){
                 console.log(err)
             }

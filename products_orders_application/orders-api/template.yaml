@@ -36,7 +36,7 @@ Resources:
       FunctionName: CustomersOrdersFunction
       CodeUri: handlers/query_customers_orders/
       Layers:
-        - !Ref AuthorizationLayer
+        - !ImportValue authorization-api-stack:AuthorizationLayer
 
       Handler: app.lambda_handler
       Runtime: python3.7
@@ -65,7 +65,7 @@ Resources:
       FunctionName: PostOrderFunction
       CodeUri: handlers/post_order/
       Layers:
-        - !Ref AuthorizationLayer
+        - !ImportValue authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -85,16 +85,3 @@ Resources:
             RestApiId: !Ref OrdersAPI
             Path: /orders/{customerID}
             Method: post
-
-
-
-  AuthorizationLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      ContentUri: py-jose.zip
-      CompatibleRuntimes:
-        - python3.7
-    Metadata:
-      BuildMethod: python3.7
-
-
