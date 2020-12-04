@@ -19,7 +19,7 @@ This repository contains applications developed using the  AWS serverless applic
         - returns JWT tokens 
     * Token is sent to lambda functions in Authorization header
 
-<img src="https://dakobed-outdoor-recreation.s3-us-west-2.amazonaws.com/images/product_list.png" width="840" height="550">
+<img src="https://dakobed-outdoor-recreation.s3-us-west-2.amazonaws.com/images/product_list.png" width="840" height="500">
 
 ### Running the web scraper and populating the database ###
 * run the web scraper & populate the dynamo products table
