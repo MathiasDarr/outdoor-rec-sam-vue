@@ -15,11 +15,11 @@ Globals:
   Function:
     Timeout: 3
 Resources:
-  ProductsQueryApi:
+  ProductsApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      Name: ProductsAPI
+      Name: ProductsApi
       DefinitionUri: s3://dakobed-serverless-apis/a8159b89a82dbd73c8448a0802bf85bc
   GetCategoriesFunction:
     Type: AWS::Serverless::Function
@@ -40,7 +40,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: ProductsQueryApi
+              Ref: ProductsApi
             Path: /categories
             Method: get
   VendorQueryFunction:
@@ -62,7 +62,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: ProductsQueryApi
+              Ref: ProductsApi
             Path: /products/vendor/{vendor_id}
             Method: get
   CategoryQueryFunction:
@@ -84,7 +84,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: ProductsQueryApi
+              Ref: ProductsApi
             Path: /products/category/{category}
             Method: get
   VendorCategoryQueryFunction:
@@ -106,7 +106,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: ProductsQueryApi
+              Ref: ProductsApi
             Path: /products/vendor/{vendor}/{category}
             Method: get
   ProductsScanFunction:
@@ -124,7 +124,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: ProductsQueryApi
+              Ref: ProductsApi
             Path: /products
             Method: get
   ProductDetailFunction:
@@ -142,6 +142,16 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: ProductsQueryApi
+              Ref: ProductsApi
             Path: /products/{vendor}/{productName}
             Method: get
+Outputs:
+  ProductsApi:
+    Value:
+      Fn::Sub: https://${ProductsApi}.execute-api.${AWS::Region}.amazonaws.com/Prod
+    Export:
+      Name:
+        Fn::Join:
+        - ':'
+        - - Ref: AWS::StackName
+          - ProductsApi

@@ -85,3 +85,9 @@ Resources:
             RestApiId: !Ref OrdersAPI
             Path: /orders/{customerID}
             Method: post
+
+Outputs:
+  OrdersApi:
+    Value: !Sub "https://${OrdersAPI}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'OrdersAPI' ] ]

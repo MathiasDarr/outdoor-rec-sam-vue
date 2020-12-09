@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CustomersOrdersFunction
-      CodeUri: s3://dakobed-serverless-apis/fb4bd36bdb1e596b3ba34ea3822ee17d
+      CodeUri: s3://dakobed-serverless-apis/92bfcfd004c863dc07429b00f105cd44
       Layers:
       - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
@@ -81,3 +81,13 @@ Resources:
               Ref: OrdersAPI
             Path: /orders/{customerID}
             Method: post
+Outputs:
+  OrdersApi:
+    Value:
+      Fn::Sub: https://${OrdersAPI}.execute-api.${AWS::Region}.amazonaws.com/Prod
+    Export:
+      Name:
+        Fn::Join:
+        - ':'
+        - - Ref: AWS::StackName
+          - OrdersAPI

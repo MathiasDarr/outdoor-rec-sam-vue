@@ -21,11 +21,11 @@ Globals:
     Timeout: 3
 
 Resources:
-  ProductsQueryApi:
+  ProductsApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      Name: ProductsAPI
+      Name: ProductsApi
       DefinitionUri: ./swagger.yaml
 
   GetCategoriesFunction:
@@ -46,7 +46,7 @@ Resources:
         VendorQuery:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            RestApiId: !Ref ProductsQueryApi
+            RestApiId: !Ref ProductsApi
             Path: /categories
             Method: get
 
@@ -67,7 +67,7 @@ Resources:
         VendorQuery:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            RestApiId: !Ref ProductsQueryApi
+            RestApiId: !Ref ProductsApi
             Path: /products/vendor/{vendor_id}
             Method: get
 
@@ -89,7 +89,7 @@ Resources:
         VendorQuery:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            RestApiId: !Ref ProductsQueryApi
+            RestApiId: !Ref ProductsApi
             Path: /products/category/{category}
             Method: get
 
@@ -110,7 +110,7 @@ Resources:
         VendorQuery:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            RestApiId: !Ref ProductsQueryApi
+            RestApiId: !Ref ProductsApi
             Path: /products/vendor/{vendor}/{category}
             Method: get
 
@@ -129,7 +129,7 @@ Resources:
         ProductsQuery:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            RestApiId: !Ref ProductsQueryApi
+            RestApiId: !Ref ProductsApi
             Path: /products
             Method: get
 
@@ -147,9 +147,15 @@ Resources:
         ProductsQuery:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            RestApiId: !Ref ProductsQueryApi
+            RestApiId: !Ref ProductsApi
             Path: /products/{vendor}/{productName}
             Method: get
+
+Outputs:
+  ProductsApi:
+    Value: !Sub "https://${ProductsApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'ProductsApi' ] ]
 
 
 
