@@ -5,7 +5,7 @@ import os
 
 dynamo_endpoint = os.getenv('dynamo_endpoint')
 if dynamo_endpoint == 'cloud':
-    dynamo_resource = boto3.resource('dynamodb')
+    dynamodb = boto3.client('dynamodb')
 else:
     dynamo_resource = boto3.resource('dynamodb', endpoint_url=dynamo_endpoint)
 
@@ -13,11 +13,12 @@ TABLE_NAME = 'Products'
 table = dynamo_resource.Table(TABLE_NAME)
 
 
-def query_products_by_vendor(vendor):
+def query_products_by_vendor_and_category(vendor, category):
     products = table.query(
-        KeyConditionExpression=Key('vendor').eq(vendor)
+        KeyConditionExpression=Key('vendor').eq(vendor),
     )
     products = products['Items']
+    products = [product for product in products if product['category'] == category]
     for product in products:
         product['price'] = float(product['price'])
     return products
@@ -44,12 +45,13 @@ def lambda_handler(event, context):
 
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
-
+    # vendor = event['pathParams']['vendor']
     vendor = event['pathParameters']['vendor']
-    products = query_products_by_vendor(vendor)
+    category = event['pathParameters']['category']
+    products = query_products_by_vendor_and_category(vendor, category)
 
     response = {"statusCode": 200, "body": json.dumps({
-        "categories": products
+        "products": products
     }), 'headers': {"Access-Control-Allow-Origin": "*"}}
 
     return response

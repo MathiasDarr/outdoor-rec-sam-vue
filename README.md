@@ -3,7 +3,7 @@
 This repository contains applications developed using the  AWS serverless application model (SAM) as well as storefront front end.
 
 ### This repository contains ###
-* Products & Orders Application
+* Products & Orders & Customers Microservices Application
     * Products Database
         - Script for scraping product details & images from REI.com into DynamoDB table
         - Uses the following technologies
@@ -27,7 +27,7 @@ This repository contains applications developed using the  AWS serverless applic
         - Routes for updating customer information    
 
 * Vue Front End
-    * make requests to serverless API using axios
+    * Make requests to serverless API using axios
     * Authenticaition with a Cognito User Pool.  
         - returns JWT tokens 
     * Token is sent to lambda functions in Authorization header
@@ -41,7 +41,25 @@ This repository contains applications developed using the  AWS serverless applic
      - cd .. 
         - python3 populate_dynamo_products.py
 
+### Deploy the APIS ### 
+* Deploy the customers API
+    - cd products_orders_application_apis/customers_api
+    - bash deploy.sh aws
+
+* Deploy the orders API
+    - cd products_orders_application_apis/orders_api
+    - bash deploy.sh aws
+
+* Deploy the products API
+    - cd products_orders_application_apis/products_api
+    - bash deploy.sh aws
+
 ### Running the frontend website ###
 * cd outdoor-rec-storefront
     - npm install
     - npm run serve
+
+### Run the integration tests ###
+* Deploy the customers API, Products API & Orders API
+* cd tests
+* python3 -m pytest
