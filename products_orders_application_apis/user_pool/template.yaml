@@ -22,9 +22,6 @@ Resources:
       KeySchema:
         - AttributeName: "email"
           KeyType: "HASH"
-
-
-
       ProvisionedThroughput:
         ReadCapacityUnits: "1"
         WriteCapacityUnits: "1"
@@ -72,7 +69,11 @@ Resources:
       GenerateSecret: false
       UserPoolId: !Ref UserPool
       ExplicitAuthFlows:
-        - ADMIN_NO_SRP_AUTH
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+        - ALLOW_USER_SRP_AUTH
+        - ALLOW_CUSTOM_AUTH
+        - ALLOW_ADMIN_USER_PASSWORD_AUTH
 
 
 Outputs:

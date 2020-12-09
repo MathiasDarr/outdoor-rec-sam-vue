@@ -2,6 +2,8 @@ import boto3
 import requests
 import json
 import time
+from test_utilities import authenticate_user
+
 
 cf_client = boto3.client('cloudformation')
 
@@ -35,6 +37,13 @@ print(OrdersApiProdUrl)
 print(USER_POOL_CLIENT)
 print(USER_POOL)
 
+cidp = boto3.client('cognito-idp')
+
 
 def test_authenticated_user_get_orders():
-    pass
+    userID = "dakobedbard@gmail.com"
+    password = '1!ZionTF'
+    id_token = authenticate_user(cidp, USER_POOL_CLIENT, userID, password)
+    return  id_token
+
+test_authenticated_user_get_orders()
