@@ -1,10 +1,27 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Parameters:
+  CustomerTableName:
+    Type: String
+    Default: Customers
   SESEmailAddress:
     Type: String
     Default: arn:aws:ses:us-west-2:710339184759:identity/neuralstyleglacier@gmail.com
 Resources:
+  CustomerTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Ref: CustomerTableName
+      AttributeDefinitions:
+      - AttributeName: email
+        AttributeType: S
+      KeySchema:
+      - AttributeName: email
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: '1'
+        WriteCapacityUnits: '1'
   SESRole:
     Type: AWS::IAM::Role
     Properties:
@@ -77,3 +94,37 @@ Outputs:
           - UserPoolARN
     Value:
       Fn::GetAtt: UserPool.Arn
+  UserTableName:
+    Export:
+      Name:
+        Fn::Join:
+        - ':'
+        - - Ref: AWS::StackName
+          - CustomerTableName
+    Value:
+      Ref: CustomerTableName
+  CustomerTable:
+    Export:
+      Name:
+        Fn::Join:
+        - ':'
+        - - Ref: AWS::StackName
+          - CustomerTableArn
+    Value:
+      Fn::GetAtt:
+      - CustomerTable
+      - Arn
+  UserTableIndicesArn:
+    Export:
+      Name:
+        Fn::Join:
+        - ':'
+        - - Ref: AWS::StackName
+          - CustomerTableIndicesArn
+    Value:
+      Fn::Join:
+      - ''
+      - - Fn::GetAtt:
+          - CustomerTable
+          - Arn
+        - /index/*

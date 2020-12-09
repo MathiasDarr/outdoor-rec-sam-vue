@@ -2,7 +2,7 @@
 
 if [[ -z $2 ]]
 then
-  stackname=orders-api-stack
+  stackname=ourdoorrec-orders-api-stack
 else
   stackname=$2
 fi

@@ -5,7 +5,7 @@ BUCKET="mir-cloudformation-artifacts"
 
 if [[ -z $2 ]]
 then
-  stackname=outdoorec-userpool-stack
+  stackname=ourdoorrec-customers-stack
 else
   stackname=$2
 fi

@@ -2,11 +2,33 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 
 Parameters:
+  CustomerTableName:
+    Type: String
+    Default: Customers
+
   SESEmailAddress:
     Type: String
     Default: arn:aws:ses:us-west-2:710339184759:identity/neuralstyleglacier@gmail.com
 
 Resources:
+
+  CustomerTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref CustomerTableName
+      AttributeDefinitions:
+        - AttributeName: "email"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "email"
+          KeyType: "HASH"
+
+
+
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
+
   SESRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -64,12 +86,26 @@ Outputs:
     Export:
       Name: !Join [ ':', [ !Ref 'AWS::StackName', 'UserPoolClient' ] ]
 
-
   UserPoolARN:
     Export:
       Name: !Join [ ':', [ !Ref 'AWS::StackName', 'UserPoolARN' ] ]
     Value:
       Fn::GetAtt: UserPool.Arn
 
-IdToken: "eyJraWQiOiJpWFVZQXVWdW1RXC9qZ3RJemg1alNKM3V0dEVxU0JnQ1BibnZWbGRrS0tLdz0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJlNTJkNzhlNy0zMTBiLTQwYzItODAwNy1kNDZlN2E4ZTU1ZjQiLCJhdWQiOiI3Z2NjNmpwN2VubzNmNHZhYWM0M3NyY2lraiIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJldmVudF9pZCI6ImIwNTUyMmI5LTQ2NDgtNDY1Yi1hYWQwLWMzM2Q5MDkwNmQyMCIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjA2NzQxMjEwLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtd2VzdC0yLmFtYXpvbmF3cy5jb21cL3VzLXdlc3QtMl9Fa2d5cmUydEEiLCJjb2duaXRvOnVzZXJuYW1lIjoiZTUyZDc4ZTctMzEwYi00MGMyLTgwMDctZDQ2ZTdhOGU1NWY0IiwiZXhwIjoxNjA2NzQ0ODEwLCJpYXQiOjE2MDY3NDEyMTAsImVtYWlsIjoiZGFrb2JlZGJhcmRAZ21haWwuY29tIn0.JX6EHIrDWSlvConDzm9H74s-c8GfbEQDeg_PEVE_9LXRPyCu1CZy9ccGEq68i_asKc6D8sEbk3U-vDksK67a4eTUj_RsFAWrbRg_vEI-82PXR60B2HZOw-xCyBnNpmS5ruz6Q1fEJkYnrQsfZFLW8d386WFJTgfHPVkx9Ll3GWd9cDdFRzpOXvZyfePmewverfKfIb87U3m8p0Em9vXCkw6edukujnvExTMwkc9qIwDGQhM7JCOur_WoqBNNuP1Nuv7cwZT2IQvOZJ7b9E81gGdNV6v9GA4D5DFvksI7pcrRAiEBjHH9krkJSOr5H9YhUuCPLmcxfi3bPMlTWwv-qg"
+  UserTableName:
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'CustomerTableName' ] ]
+    Value:
+      !Ref CustomerTableName
 
+  CustomerTable:
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'CustomerTableArn' ] ]
+    Value:
+      !GetAtt CustomerTable.Arn
+
+  UserTableIndicesArn:
+    Export:
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'CustomerTableIndicesArn' ] ]
+    Value:
+      !Join [ '', [ !GetAtt CustomerTable.Arn, '/index/*' ] ]

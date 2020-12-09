@@ -36,7 +36,6 @@ def create_customer_table():
                 },
 
             ],
-
             KeySchema=[
                 {
                     "AttributeName": "customerID",

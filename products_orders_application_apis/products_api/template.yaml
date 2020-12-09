@@ -15,7 +15,6 @@ Parameters:
       - cloud
     Description: http://dynamo-local:8000, cloud
 
-
 Globals:
   Function:
     Timeout: 3
@@ -38,7 +37,6 @@ Resources:
       Environment:
         Variables:
           dynamo_endpoint: !Ref DynamoEndpoint
-
       Policies:
         - DynamoDBReadPolicy:
             TableName: Categories
@@ -157,18 +155,3 @@ Outputs:
     Export:
       Name: !Join [ ':', [ !Ref 'AWS::StackName', 'ProductsApi' ] ]
 
-
-
-#Outputs:
-#  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-#  # Find out more about other implicit resources you can reference within SAM
-#  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-#  ProductsQueryApi:
-#    Description: "API Gateway endpoint URL for Prod stage for ProductsQueryFunction"
-#    Value: !Sub "https://${ProductsQueryApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/products/"
-#  ProductsScanFunction:
-#    Description: "Hello World Lambda Function ARN"
-#    Value: !GetAtt ProductsScanFunction.Arn
-#  HelloWorldFunctionIamRole:
-#    Description: "Implicit IAM Role created for Hello World function"
-#    Value: !GetAtt ProductsScanFunction.Arn

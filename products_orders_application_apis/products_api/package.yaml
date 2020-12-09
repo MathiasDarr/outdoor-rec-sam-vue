@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: GetCategoriesFunction
-      CodeUri: s3://dakobed-serverless-apis/d7c1cd9f46debc1355574a4b69a8a60e
+      CodeUri: s3://dakobed-serverless-apis/9deb088f8056923cdcba337024e9f0b9
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -47,7 +47,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/4cb5b25f559e712da1d6471270194fb2
+      CodeUri: s3://dakobed-serverless-apis/77fb0dc20dce310c5cdee61a25b46f19
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -69,7 +69,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CategoryQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/f26a4bb9df0b16db330830edc0235018
+      CodeUri: s3://dakobed-serverless-apis/889d5f480d0733d93330db8ea099ae46
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -91,7 +91,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: VendorCategoryQueryFunction
-      CodeUri: s3://dakobed-serverless-apis/39b3b760d49414236c29de3cfa5c7201
+      CodeUri: s3://dakobed-serverless-apis/d9991fe0ea4d28bbbbd9e75446009f37
       Handler: app.lambda_handler
       Runtime: python3.7
       Environment:
@@ -113,7 +113,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ProductsScanFunction
-      CodeUri: s3://dakobed-serverless-apis/4bdff24ecd4d37b548f35994db3d5152
+      CodeUri: s3://dakobed-serverless-apis/394089515b730b476be3c64f28156eb4
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
@@ -131,7 +131,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ProductDetailFunction
-      CodeUri: s3://dakobed-serverless-apis/a649d6ac38517e26dc1cdb8386706743
+      CodeUri: s3://dakobed-serverless-apis/853f9f4b8f46f9fe45fd0fedbac3f589
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:

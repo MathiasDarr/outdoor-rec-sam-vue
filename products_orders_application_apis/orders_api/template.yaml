@@ -43,8 +43,8 @@ Resources:
       Environment:
         Variables:
           dynamo_endpoint: !Ref DynamoEndpoint
-          userpool_id: !ImportValue outdoorec-userpool-stack:UserPool
-          app_client_id: !ImportValue outdoorec-userpool-stack:UserPoolClient
+          userpool_id: !ImportValue ourdoorrec-customers-stack:UserPool
+          app_client_id: !ImportValue ourdoorrec-customers-stack:UserPoolClient
           region: !Ref Region
 
       Policies:
@@ -71,8 +71,8 @@ Resources:
       Environment:
         Variables:
           dynamo_endpoint: !Ref DynamoEndpoint
-          userpool_id: !ImportValue outdoorec-userpool-stack:UserPool
-          app_client_id: !ImportValue outdoorec-userpool-stack:UserPoolClient
+          userpool_id: !ImportValue ourdoorrec-customers-stack:UserPool
+          app_client_id: !ImportValue ourdoorrec-customers-stack:UserPoolClient
           region: !Ref Region
 
       Policies:

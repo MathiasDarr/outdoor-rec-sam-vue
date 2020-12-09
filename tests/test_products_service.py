@@ -5,7 +5,7 @@ import time
 
 cf_client = boto3.client('cloudformation')
 
-products_stack = 'products-api-stack'
+products_stack = 'ourdoorrec-products-api-stack'
 response = cf_client.describe_stacks(StackName=products_stack)
 outputs = response["Stacks"][0]["Outputs"]
 

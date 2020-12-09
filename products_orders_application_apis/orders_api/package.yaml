@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CustomersOrdersFunction
-      CodeUri: s3://dakobed-serverless-apis/92bfcfd004c863dc07429b00f105cd44
+      CodeUri: s3://dakobed-serverless-apis/16bcf4dafd47edee443a27c56ef2ac70
       Layers:
       - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
@@ -35,9 +35,9 @@ Resources:
           dynamo_endpoint:
             Ref: DynamoEndpoint
           userpool_id:
-            Fn::ImportValue: outdoorec-userpool-stack:UserPool
+            Fn::ImportValue: ourdoorrec-customers-stack:UserPool
           app_client_id:
-            Fn::ImportValue: outdoorec-userpool-stack:UserPoolClient
+            Fn::ImportValue: ourdoorrec-customers-stack:UserPoolClient
           region:
             Ref: Region
       Policies:
@@ -55,7 +55,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: PostOrderFunction
-      CodeUri: s3://dakobed-serverless-apis/fc870fe4d9bf690e7e701292926b7fd8
+      CodeUri: s3://dakobed-serverless-apis/74f58bd8c0086966dc7da8ea6c8e3c34
       Layers:
       - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
@@ -65,9 +65,9 @@ Resources:
           dynamo_endpoint:
             Ref: DynamoEndpoint
           userpool_id:
-            Fn::ImportValue: outdoorec-userpool-stack:UserPool
+            Fn::ImportValue: ourdoorrec-customers-stack:UserPool
           app_client_id:
-            Fn::ImportValue: outdoorec-userpool-stack:UserPoolClient
+            Fn::ImportValue: ourdoorrec-customers-stack:UserPoolClient
           region:
             Ref: Region
       Policies:
