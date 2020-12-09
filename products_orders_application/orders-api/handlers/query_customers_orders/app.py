@@ -14,7 +14,6 @@ userpool_id = os.getenv('userpool_id')
 app_client_id = os.getenv('app_client_id')
 keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
 
-
 with urllib.request.urlopen(keys_url) as f:
   response = f.read()
 keys = json.loads(response.decode('utf-8'))['keys']

@@ -13,14 +13,24 @@ from time import sleep
 
 
 def insert_order(order):
+    quantities_string = order['quantities'][1:-1]
+    quantities = quantities_string.split(',')
+
+    vendors_string = order['vendors'][1:-1]
+    vendors = vendors_string.split(',')
+
+    products_string = order['products'][1:-1]
+    products = products_string.split(',')
+
+
     return table.put_item(
         Item={
             'orderID': order['orderID'],
             'customerID': order['customerID'],
-            'vendors': order['vendors'],
-            'products': order['products'],
+            'vendors': vendors,
+            'products': products,
             'order_status': order['order_status'],
-            'quantities': order['quantities'],
+            'quantities': [int(q) for q in quantities],
             'total_price': order['total_price']
         }
     )
