@@ -19,13 +19,13 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: OrdersAPI
-      DefinitionUri: s3://dakobed-serverless-apis/8293ca65d849974ef3caf91ea089f55d
+      DefinitionUri: s3://dakobed-serverless-apis/738002325ca8ccdc8263eec432715550
       StageName: Prod
   CustomersOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CustomersOrdersFunction
-      CodeUri: s3://dakobed-serverless-apis/16bcf4dafd47edee443a27c56ef2ac70
+      CodeUri: s3://dakobed-serverless-apis/8f1b2569a2f2b011ef284b85876b9904
       Layers:
       - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
@@ -49,7 +49,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: OrdersAPI
-            Path: /orders/{customerID}
+            Path: /orders
             Method: get
   PostOrderFunction:
     Type: AWS::Serverless::Function
@@ -79,7 +79,7 @@ Resources:
           Properties:
             RestApiId:
               Ref: OrdersAPI
-            Path: /orders/{customerID}
+            Path: /orders
             Method: post
 Outputs:
   OrdersApi:

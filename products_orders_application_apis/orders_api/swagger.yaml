@@ -19,7 +19,7 @@ basePath: "/v1"
 schemes:
   - "https"
 paths:
-  /orders/{customerID}:
+  /orders:
     options:
       responses:
         200:
@@ -54,13 +54,6 @@ paths:
       produces:
         - "application/json"
 
-      parameters:
-        - name: "customerID"
-          in: "path"
-          description: "ID of vendor "
-          required: true
-          type: "string"
-
       responses:
         200:
           description: "Success"
@@ -83,8 +76,20 @@ paths:
             statusCode: 200
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+            responseTemplates:
+              application/json: "#set($inputRoot = $input.path('$')) #if($inputRoot.toString().contains(\"error\")) #set($context.responseOverride.status = 403)  \"error\": \"$inputRoot.body\" #end $input.json(\"$\")"
+
+        passthroughBehavior: "when_no_templates"
         requestTemplates:
-          application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParameters\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParameters\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"
+          application/json: " #set($allParams = $input.params()) { \"body\" : $input.json('$'), \"params\" : { #foreach($type in $allParams.keySet()) #set($params = $allParams.get($type)) \"$type\" : { #foreach($paramName in $params.keySet()) \"$paramName\" : \"$util.escapeJavaScript($params.get($paramName))\" #if($foreach.hasNext),#end #end } #if($foreach.hasNext),#end #end }}"
+
+#        responses:
+#          default:
+#            statusCode: 200
+#            responseParameters:
+#              method.response.header.Access-Control-Allow-Origin: "'*'"
+#        requestTemplates:
+#          application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParameters\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParameters\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"
 
     post:
       tags:
@@ -94,13 +99,6 @@ paths:
       operationId: "getSnotelByLocation"
       produces:
         - "application/json"
-
-      parameters:
-        - name: "customerID"
-          in: "path"
-          description: "ID of vendor "
-          required: true
-          type: "string"
 
       responses:
         200:
@@ -115,7 +113,7 @@ paths:
         basic:
           validateRequestParameters: true
       x-amazon-apigateway-integration:
-        type: "aws_proxy"
+        type: "aws"
         httpMethod: "POST"
 
         uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:PostOrderFunction/invocations"
