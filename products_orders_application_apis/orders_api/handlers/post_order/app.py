@@ -12,12 +12,10 @@ import re
 import json
 from boto3.dynamodb.types import Decimal
 
-
 region = os.getenv('region')
 userpool_id = os.getenv('userpool_id')
 app_client_id = os.getenv('app_client_id')
 keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
-
 
 with urllib.request.urlopen(keys_url) as f:
     response = f.read()
@@ -33,7 +31,7 @@ TABLE_NAME = 'Orders'
 table = dynamo_resource.Table(TABLE_NAME)
 
 
-def authenticate_identification_token(customerID, token):
+def verify_identification_token(token):
     """
     This method
     :param customerID: email of customer
@@ -71,10 +69,10 @@ def authenticate_identification_token(customerID, token):
         print('Token is expired')
         return False
 
-    if claims['aud'] != app_client_id or claims['email'] != customerID:
+    if claims['aud'] != app_client_id:  # or claims['email'] != customerID:
         print('Token was not issued for this audience')
         return False
-    return True
+    return claims['email']
 
 
 def insert_order(order):
@@ -113,13 +111,21 @@ def lambda_handler(event, context):
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
 
-    customerID = event['body']['customerID']
+    if 'Authorization' not in event['params']['header'] or not verify_identification_token(
+            event['params']['header']['Authorization']):
+        return {"statusCode": 403, "body": json.dumps({
+            "errorMessage": "failure"
+        }), 'headers': {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}}
+
+    customer_email = verify_identification_token(event['params']['header']['Authorization'])
+
     vendors = event['body']['vendors']
     products = event['body']['products']
     quantities = event['body']['quantities']
 
-    order ={'customerID': customerID, 'vendors':vendors, 'products':products, 'quantities':quantities  }
-    order['total_price'] = Decimal('138.69')
+    order = {'customerID': customer_email, 'vendors': vendors, 'products': products, 'quantities': quantities,
+             'total_price': Decimal('138.69')}
+    # order['total_price'] = Decimal('138.69')
 
     current_date = str(datetime.now())[:-7]
     current_date = re.sub(r"[ ,.;@#?!&$:-]+", '', current_date)
@@ -131,38 +137,6 @@ def lambda_handler(event, context):
     insert_order(order)
 
     response = {"statusCode": 200, "body": json.dumps({
-        "type": order['orderID']
+        "order": order['orderID']
     }), 'headers': {"Access-Control-Allow-Origin": "*"}}
     return response
-
-    # if 'Authorization' not in event['headers'] or not authenticate_identification_token(customerID, event['headers']['Authorization']):
-    #     return {"statusCode": 403, "body": json.dumps({
-    #         "error": "Token has expired or been issued to different user."
-    #     }), 'headers': {"Access-Control-Allow-Origin": "*"}}
-    #
-    # body = event['body']
-    # vendors = body['customerID']
-    #
-    # response = {"statusCode": 200, "body": json.dumps({
-    #     "type": vendors
-    # }), 'headers': {"Access-Control-Allow-Origin": "*"}}
-    # return response
-
-
-    # order = {}
-    # body = json.loads(event['body'])
-    # order['vendors'] = body['vendors']
-    # order['products'] = body['products']
-    # order['quantities'] = body['quantities']
-    # order['customerID'] = event['pathParameters']['customerID']
-    #
-
-    #
-    # order['order_status'] = 'Pending'
-    # order['total_price'] = Decimal('138.69')
-    # order_response = insert_order(order)
-    #
-    # response = {"statusCode": 200, "body": json.dumps({
-    #     "type": order_response
-    # }), 'headers': {"Access-Control-Allow-Origin": "*"}}
-    # return response

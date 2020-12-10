@@ -80,7 +80,7 @@ def get_order_detail(customerID, orderID):
             'orderID': orderID
         }
     )
-    return order
+    return order['Item']
 
 order = get_order_detail('dakobedbard@gmail.com', '20191203100217' )
 
@@ -105,19 +105,20 @@ def lambda_handler(event, context):
 
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
+    pass
 
-    token = event['headers']['Authorization']
-    customerID = event['pathParameters']['customerID']
-    is_authenticated = authenticate_identification_token(customerID,token)
-
-    if not is_authenticated:
-        return {"statusCode": 403, "body": json.dumps({
-            "error": "Token has expired or been issued to different user."
-        }), 'headers': {"Access-Control-Allow-Origin": "*"}}
-    else:
-        orders = query_orders_by_customer(customerID)
-        response = {"statusCode": 200, "body": json.dumps({
-            "categories": orders
-        }), 'headers': {"Access-Control-Allow-Origin": "*"}}
-
-        return response
+    # token = event['headers']['Authorization']
+    # customerID = event['pathParameters']['customerID']
+    # is_authenticated = authenticate_identification_token(customerID,token)
+    #
+    # if not is_authenticated:
+    #     return {"statusCode": 403, "body": json.dumps({
+    #         "error": "Token has expired or been issued to different user."
+    #     }), 'headers': {"Access-Control-Allow-Origin": "*"}}
+    # else:
+    #     orders = get_order_detail(customerID)
+    #     response = {"statusCode": 200, "body": json.dumps({
+    #         "categories": orders
+    #     }), 'headers': {"Access-Control-Allow-Origin": "*"}}
+    #
+    #     return response

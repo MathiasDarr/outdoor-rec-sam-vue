@@ -29,5 +29,5 @@ def get_order_detail(orders_table, customerID, orderID):
             'orderID': orderID
         }
     )
-    return order
+    return order['Item']
 
