@@ -54,40 +54,36 @@ def test_unauthenticated_user_posts_order():
     post_order_response = requests.post(post_order_url, json=body, headers={'Authorization': "dfd"})
     assert post_order_response.status_code == 403
 
-test_unauthenticated_user_posts_order()
-
 
 def test_authenticated_user_posts_order():
+    """
+    Authenticated user places order
+    :return:
+    """
+    # Obtain JWT identification token for authenticated user
     customer_email = "dakobedbard@gmail.com"
     password = '1!ZionTF'
     id_token = authenticate_user(cidp, USER_POOL_CLIENT, customer_email, password)
 
-    headers = {'Authorization': id_token}
+    post_order_url = '{}/orders'.format(OrdersApiProdUrl)
 
     products = ["boots"]
     vendors = ["KUHL"]
     quantities = [1]
     body = {"customerID": customer_email, "quantities": quantities, "products": products, "vendors": vendors}
-    post_order_url = '{}/orders'.format(OrdersApiProdUrl)
-    post_order_response = requests.post(post_order_url, json=body, headers=headers)
+    headers = {'Authorization': id_token}
 
+    # Make a request to the API endpoint placing order w/ Authorization header
+    post_order_response = requests.post(post_order_url, json=body, headers=headers)
     assert post_order_response.status_code == 200
 
     json_response = post_order_response.json()
     body = json.loads(json_response['body'])
-
     orderID = body['order']
-
     order = get_order_detail(orders_table, customer_email, orderID)
 
-    response_products = order['products']
-    response_quantities = order['quantities']
-    response_vendors = order['vendors']
-    response_customer_email = order['customerID']
-
-    assert products == response_products
-    assert vendors == response_vendors
-    assert customer_email == response_customer_email
-    assert quantities == response_quantities
-
-test_authenticated_user_posts_order()
+    # Assert the order attributes are as expected
+    assert products == order['products']
+    assert vendors == order['vendors']
+    assert customer_email == order['customerID']
+    assert quantities == order['quantities']

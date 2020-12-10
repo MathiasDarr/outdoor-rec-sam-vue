@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: CustomersOrdersFunction
-      CodeUri: s3://dakobed-serverless-apis/8f1b2569a2f2b011ef284b85876b9904
+      CodeUri: s3://dakobed-serverless-apis/de419926184ced799308918c489f0790
       Layers:
       - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler
@@ -55,7 +55,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: PostOrderFunction
-      CodeUri: s3://dakobed-serverless-apis/b0d3ca2ae0c943c00c8c033524a0d024
+      CodeUri: s3://dakobed-serverless-apis/7e25ecd601d2f9a22cd77c1af91b143c
       Layers:
       - Fn::ImportValue: authorization-api-stack:AuthorizationLayer
       Handler: app.lambda_handler

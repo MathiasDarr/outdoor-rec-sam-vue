@@ -18,7 +18,6 @@ for output in outputs:
 
 print(ProductsApiProdUrl)
 
-
 def test_query_products_by_vendor():
     """
     Test querying products by vendor and asserting that all returned products are of the same vendor
