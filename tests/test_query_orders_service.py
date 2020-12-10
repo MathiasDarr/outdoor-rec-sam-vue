@@ -40,13 +40,15 @@ cidp = boto3.client('cognito-idp')
 def test_unauthenticated_orders_query_request_returns_403():
     orders_query_url = '{}/orders'.format(OrdersApiProdUrl)
     headers = {'Authorization': 'not a token'}
-    get_orders_response = requests.get(orders_query_url) #, headers = headers)
-    return get_orders_response
-    #assert get_orders_response.status_code == 403
+    get_orders_response = requests.get(orders_query_url, headers = headers)
+    assert get_orders_response.status_code == 403
 
-resp = test_unauthenticated_orders_query_request_returns_403()
 
 def test_authenticated_user_get_orders():
+    """
+    Authenticated user is able
+    :return:
+    """
     userID = "dakobedbard@gmail.com"
     password = '1!ZionTF'
     id_token = authenticate_user(cidp, USER_POOL_CLIENT, userID, password)
@@ -62,13 +64,10 @@ def test_authenticated_user_get_orders():
     assert all([order['customerID'] == userID for order in orders])
 
 
-# userID = "dakobedbard@gmail.com"
-# orders = test_authenticated_user_get_orders()
-# assert all([order['customerID'] == userID for order in orders])
-#
-# print(get_orders_response.json())
 
 userID = "dakobedbard@gmail.com"
 password = '1!ZionTF'
 id_token = authenticate_user(cidp, USER_POOL_CLIENT, userID, password)
 print(id_token)
+
+

@@ -117,13 +117,27 @@ paths:
         httpMethod: "POST"
 
         uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:PostOrderFunction/invocations"
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+            responseTemplates:
+              application/json: "#set($inputRoot = $input.path('$')) #if($inputRoot.toString().contains(\"error\")) #set($context.responseOverride.status = 403)  \"error\": \"$inputRoot.body\" #end $input.json(\"$\")"
+
+        passthroughBehavior: "when_no_templates"
+        requestTemplates:
+          application/json: " #set($allParams = $input.params()) { \"body\" : $input.json('$'), \"params\" : { #foreach($type in $allParams.keySet()) #set($params = $allParams.get($type)) \"$type\" : { #foreach($paramName in $params.keySet()) \"$paramName\" : \"$util.escapeJavaScript($params.get($paramName))\" #if($foreach.hasNext),#end #end } #if($foreach.hasNext),#end #end }}"
+
+
+
 #        responses:
 #          default:
 #            statusCode: 200
 #            responseParameters:
 #              method.response.header.Access-Control-Allow-Origin: "'*'"
 #        passthroughBehavior: "when_no_templates"
-
+#
 #        requestTemplates:
 #          application/json: "{\"pathParameters\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n}"
 #        requestTemplates:

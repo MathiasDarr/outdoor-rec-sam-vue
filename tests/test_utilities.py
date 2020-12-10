@@ -15,3 +15,19 @@ def authenticate_user(cidp, user_pool_client, username, password):
                                   ClientId=user_pool_client)
     return response['AuthenticationResult']['IdToken']
 
+
+def get_order_detail(orders_table, customerID, orderID):
+    """
+    :param orders_table: Orders dynamodb table as returned from dynamodb resource
+    :param customerID: customer email address
+    :param orderID:
+    :return:
+    """
+    order = orders_table.get_item(
+        Key={
+            'customerID': customerID,
+            'orderID': orderID
+        }
+    )
+    return order
+

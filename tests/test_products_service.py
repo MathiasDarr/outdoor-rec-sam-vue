@@ -41,3 +41,4 @@ def test_query_products_by_category():
     query_response = requests.get(query_url)
     body = json.loads(query_response.json()['body'])
     assert all([product['category'] == category for product in body['products']])
+

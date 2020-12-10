@@ -73,13 +73,16 @@ def authenticate_identification_token(customerID, token):
     return True
 
 
-def query_orders_by_customer(customer):
-    orders = table.query(
-        KeyConditionExpression=Key('customerID').eq(customer)
+def get_order_detail(customerID, orderID):
+    order = table.get_item(
+        Key={
+            'customerID': customerID,
+            'orderID': orderID
+        }
     )
-    orders = orders['Items']
-    return orders
+    return order
 
+order = get_order_detail('dakobedbard@gmail.com', '20191203100217' )
 
 def lambda_handler(event, context):
     """
